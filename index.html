@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felix Liu | Systems & Firmware Engineer</title>
+    <style>
+        /* --- CSS VARIABLES & THEMES --- */
+        :root {
+            --bg-color: #f4f4f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --accent-color: #0056b3;
+            --secondary-text: #666;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --card-bg: #2d2d2d;
+            --accent-color: #4dabf7;
+            --secondary-text: #aaa;
+            --nav-bg: rgba(26, 26, 26, 0.9);
+            --shadow: 0 4px 6px rgba(0,0,0,0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 70px;
+            background: var(--nav-bg); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 5%; z-index: 1000; box-shadow: var(--shadow);
+        }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--accent-color); cursor: pointer; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-btn {
+            background: none; border: none; font-size: 1rem; color: var(--text-color);
+            cursor: pointer; padding: 5px 10px; position: relative;
+        }
+        .nav-btn::after {
+            content: ''; display: block; width: 0; height: 2px;
+            background: var(--accent-color); transition: width 0.3s;
+        }
+        .nav-btn:hover::after, .nav-btn.active::after { width: 100%; }
+        
+        /* --- THEME TOGGLE --- */
+        #theme-toggle {
+            background: var(--card-bg); border: 2px solid var(--accent-color);
+            color: var(--text-color); padding: 5px 15px; border-radius: 20px;
+            cursor: pointer; font-weight: bold;
+        }
+        #theme-toggle:hover { background: var(--accent-color); color: #fff; }
+
+        /* --- SECTIONS --- */
+        main { padding-top: 80px; min-height: 100vh; }
+        .section { display: none; padding: 40px 10%; animation: fadeIn 0.5s; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        h1 { font-size: 3rem; margin-bottom: 10px; }
+        h2 { border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; }
+        p { line-height: 1.6; margin-bottom: 15px; }
+
+        /* --- HOME HERO --- */
+        #home-container {
+            position: relative; height: 85vh; display: flex;
+            flex-direction: column; justify-content: center; align-items: flex-start;
+        }
+        #hero-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.6;
+        }
+        .hero-text { z-index: 1; max-width: 600px; pointer-events: none; }
+        .hero-text h1, .hero-text p { pointer-events: auto; }
+
+        /* --- CARDS (Experience/Research) --- */
+        .card {
+            background: var(--card-bg); padding: 25px; border-radius: 10px;
+            margin-bottom: 20px; box-shadow: var(--shadow); border-left: 5px solid var(--accent-color);
+        }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+        .role { font-weight: bold; font-size: 1.2rem; }
+        .company { color: var(--accent-color); font-weight: 600; }
+        .date { color: var(--secondary-text); font-style: italic; }
+        ul.job-details { list-style-position: inside; color: var(--secondary-text); }
+        ul.job-details li { margin-bottom: 8px; }
+
+        /* --- SKILLS TAGS --- */
+        .skills-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        .skill-tag {
+            background: var(--card-bg); border: 1px solid var(--accent-color);
+            color: var(--accent-color); padding: 5px 15px; border-radius: 15px; font-size: 0.9rem;
+        }
+
+        /* --- EASTER EGG GAME --- */
+        #game-area {
+            position: relative; width: 100%; height: 400px;
+            background: #000; border: 2px solid var(--accent-color);
+            margin: 20px 0; overflow: hidden; display: none; cursor: crosshair;
+        }
+        #game-score { font-size: 1.5rem; font-family: monospace; color: var(--accent-color); margin-bottom: 10px;}
+        .game-overlay {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: #fff; text-align: center; pointer-events: none;
+        }
+        button.game-btn {
+            padding: 10px 20px; font-size: 1.2rem; background: var(--accent-color);
+            color: white; border: none; cursor: pointer; border-radius: 5px; margin-top: 10px; pointer-events: auto;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center; padding: 20px; background: var(--nav-bg);
+            margin-top: 50px; color: var(--secondary-text); font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="light-mode">
+
+    <nav>
+        <div class="logo" onclick="switchTab('home')">FELIX LIU</div>
+        <div class="nav-links">
+            <button class="nav-btn active" onclick="switchTab('home')">Home</button>
+            <button class="nav-btn" onclick="switchTab('experience')">Experience</button>
+            <button class="nav-btn" onclick="switchTab('research')">Research & Projects</button>
+            <button class="nav-btn" onclick="switchTab('contact')">Contact</button>
+            <button class="nav-btn" style="color: var(--accent-color);" onclick="switchTab('easteregg')">???</button>
+        </div>
+        <button id="theme-toggle" onclick="toggleTheme()">Dark Mode</button>
+    </nav>
+
+    <main>
+        <section id="home" class="section active">
+            <div id="home-container">
+                <canvas id="hero-canvas"></canvas>
+                <div class="hero-text">
+                    <h1>Fangxin (Felix) Liu</h1>
+                    <h3>Computer & Systems Engineer</h3>
+                    <p>RPI Class of 2026 | [cite_start]GPA 3.40 [cite: 5]</p>
+                    <p style="margin-top: 20px; color: var(--secondary-text);">
+                        [cite_start]Specializing in System Integration, Firmware, Embedded Systems, and FPGA Development[cite: 7].
+                        Move your cursor around to interact with the system architecture. Click to disrupt.
+                    </p>
+                    <div class="skills-container">
+                        <span class="skill-tag">C++ / C</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">System Verilog</span>
+                        <span class="skill-tag">RISC-V</span>
+                        <span class="skill-tag">CUDA</span>
+                        <span class="skill-tag">MATLAB</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section">
+            [cite_start]<h2>Professional Experience [cite: 8]</h2>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="role">System Integration Engineer Intern</div>
+                        <div class="company">Tesla</div>
+                    </div>
+                    [cite_start]<div class="date">Jun 2024 – Sep 2024 [cite: 12]</div>
+                </div>
+                <ul class="job-details">
+                    [cite_start]<li>Executed 55+ system integration tests and 80+ microsecond-level e-fuse safety tests on new generation Model Y[cite: 13].</li>
+                    [cite_start]<li>Defined Tesla Gen 3 Low-Voltage Electronic System Architecture documentation for future interns[cite: 16].</li>
+                    [cite_start]<li>Developed low-voltage electronics bucks for confidential vehicles, validating 358 subsystem parts configurations[cite: 15].</li>
+                    [cite_start]<li>Performed thermal tests for 60% of controllers, gathering 5000+ data sets for thermal modeling[cite: 13].</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="role">Low Voltage Systems TPM Intern</div>
+                        <div class="company">Tesla</div>
+                    </div>
+                    [cite_start]<div class="date">Jan 2024 – May 2024 [cite: 19]</div>
+                </div>
+                <ul class="job-details">
+                    [cite_start]<li>Led construction of 7 infotainment bucks for e-call feature validation[cite: 20].</li>
+                    [cite_start]<li>Managed Tesla Web Engineering Bill of Material (WEBOM) system tracking 2000+ components[cite: 23].</li>
+                    [cite_start]<li>Managed Solar Chamber project for HVAC team, improving solar sensor accuracy by 30%[cite: 22].</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="role">UNISYS Mainframe Development Intern</div>
+                        <div class="company">NYS Office of Information Technology Services</div>
+                    </div>
+                    [cite_start]<div class="date">Feb 2023 – Dec 2023 [cite: 33]</div>
+                </div>
+                <ul class="job-details">
+                    [cite_start]<li>Maintained system functionalities for a 24/7 Mainframe System serving all of New York State[cite: 34].</li>
+                    [cite_start]<li>Led an intern team to partially rewrite system log processing programs, remediating 200+ deprecated routines[cite: 36].</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="research" class="section">
+            [cite_start]<h2>Research [cite: 26]</h2>
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="role">Research Assistant</div>
+                        <div class="company">RPI ECSE Department</div>
+                    </div>
+                    [cite_start]<div class="date">Sep 2025 – Current [cite: 32]</div>
+                </div>
+                <ul class="job-details">
+                    [cite_start]<li>Conducted research on GPU customized operation using C++ with CUDA and CUTLASS[cite: 28].</li>
+                    [cite_start]<li>Conducted research on Accelerated Computation using Python with PyTorch[cite: 29].</li>
+                </ul>
+            </div>
+
+            [cite_start]<h2>Selected Projects [cite: 37]</h2>
+            <div class="card">
+                <div class="card-header">
+                    <div class="role">FPGA Pipeline 5-stage RISC-V Processor</div>
+                </div>
+                [cite_start]<p>Developed using System-Verilog HDL, supporting RISC-V assembly programs[cite: 40].</p>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="role">Ultrasonic Ranging Robotic Car</div>
+                </div>
+                [cite_start]<p>Based on TI MSP-EXP432 "Launch Pad" and TI RSLK Embedded System[cite: 38].</p>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>Contact</h2>
+            <div class="card" style="text-align: center;">
+                <p style="font-size: 1.2rem;">Let's Connect.</p>
+                [cite_start]<p><strong>Email:</strong> liuf8@rpi.edu [cite: 3]</p>
+                [cite_start]<p><strong>Phone:</strong> +1 (347) 404-2110 [cite: 3]</p>
+                [cite_start]<p><strong>Location:</strong> New York, United States [cite: 3]</p>
+            </div>
+        </section>
+
+        <section id="easteregg" class="section">
+            <h2>System Breach: The Game</h2>
+            <p>You are a data packet (Green Block). Collect the encryption keys (Blue Blocks) to secure the system. Avoid the firewall spikes (Red Blocks)!</p>
+            <div id="game-score">Score: 0</div>
+            <div id="game-area">
+                <div class="game-overlay" id="start-screen">
+                    <h3>SYSTEM READY</h3>
+                    <button class="game-btn" onclick="startGame()">INITIALIZE</button>
+                </div>
+                <canvas id="game-canvas" width="800" height="400"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Fangxin (Felix) Liu. Built from Resume Data.</p>
+    </footer>
+
+    <script>
+        // --- TAB SWITCHING ---
+        function switchTab(tabId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Show target
+            document.getElementById(tabId).classList.add('active');
+            
+            // Highlight nav button
+            const navBtns = document.querySelectorAll('.nav-btn');
+            // Simple mapping based on index or text would work, but let's just find the one with onclick matching
+            navBtns.forEach(btn => {
+                if(btn.getAttribute('onclick').includes(tabId)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            if(tabId === 'home') initParticles(); // Restart particles
+            if(tabId !== 'easteregg') stopGame();
+        }
+
+        // --- THEME TOGGLE ---
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('theme-toggle');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                btn.innerText = "Dark Mode";
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                btn.innerText = "Light Mode";
+            }
+        }
+
+        // --- HOME CANVAS EFFECT (Particles) ---
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationFrameId;
+
+        function resizeCanvas() {
+            canvas.width = document.getElementById('home-container').offsetWidth;
+            canvas.height = document.getElementById('home-container').offsetHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.size = Math.random() * 3 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // Bounce edges
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                
+                // Mouse Interaction (Repel/Attract)
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                if (distance < 100) {
+                    const forceDirectionX = dx / distance;
+                    const forceDirectionY = dy / distance;
+                    const force = (100 - distance) / 100;
+                    // Gentle repulsion
+                    this.vx -= forceDirectionX * force * 0.5;
+                    this.vy -= forceDirectionY * force * 0.5;
+                }
+            }
+            draw() {
+                const isDark = document.body.getAttribute('data-theme') === 'dark';
+                ctx.fillStyle = isDark ? 'rgba(77, 171, 247, 0.5)' : 'rgba(0, 86, 179, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        let mouse = { x: null, y: null };
+        window.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+        
+        // Click effect: Explosion
+        window.addEventListener('click', (e) => {
+            if(document.getElementById('home').classList.contains('active')) {
+                particles.forEach(p => {
+                    const dx = p.x - mouse.x;
+                    const dy = p.y - mouse.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if(dist < 200) {
+                        p.vx += (dx/dist) * 10;
+                        p.vy += (dy/dist) * 10;
+                    }
+                });
+            }
+        });
+
+        function initParticles() {
+            resizeCanvas();
+            particles = [];
+            for (let i = 0; i < 80; i++) particles.push(new Particle());
+            if(animationFrameId) cancelAnimationFrame(animationFrameId);
+            animateParticles();
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw connections
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            ctx.strokeStyle = isDark ? 'rgba(77, 171, 247, 0.1)' : 'rgba(0, 86, 179, 0.1)';
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx*dx + dy*dy);
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            animationFrameId = requestAnimationFrame(animateParticles);
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            initParticles();
+        };
+
+        // --- MINI GAME (Easter Egg) ---
+        const gameCanvas = document.getElementById('game-canvas');
+        const gCtx = gameCanvas.getContext('2d');
+        let gameLoopId;
+        let score = 0;
+        let player = { x: 50, y: 50, w: 20, h: 20, color: '#0f0', speed: 5 };
+        let target = { x: 200, y: 200, w: 15, h: 15, color: '#00f' };
+        let enemies = [];
+        let keys = {};
+        let gameRunning = false;
+
+        window.addEventListener('keydown', e => keys[e.key] = true);
+        window.addEventListener('keyup', e => keys[e.key] = false);
+
+        function startGame() {
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('game-area').style.display = 'block';
+            score = 0;
+            enemies = [];
+            player.x = 400; player.y = 200;
+            gameRunning = true;
+            spawnTarget();
+            gameLoop();
+        }
+
+        function stopGame() {
+            gameRunning = false;
+            cancelAnimationFrame(gameLoopId);
+            document.getElementById('start-screen').style.display = 'block';
+        }
+
+        function spawnTarget() {
+            target.x = Math.random() * (gameCanvas.width - 20);
+            target.y = Math.random() * (gameCanvas.height - 20);
+        }
+
+        function spawnEnemy() {
+            enemies.push({
+                x: Math.random() * gameCanvas.width,
+                y: Math.random() < 0.5 ? 0 : gameCanvas.height,
+                w: 15, h: 15,
+                vx: (Math.random() - 0.5) * 4,
+                vy: (Math.random() - 0.5) * 4,
+                color: 'red'
+            });
+        }
+
+        function gameLoop() {
+            if(!gameRunning) return;
+            gCtx.fillStyle = 'rgba(0,0,0,0.2)'; // Trails
+            gCtx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+
+            // Move Player
+            if(keys['ArrowUp'] && player.y > 0) player.y -= player.speed;
+            if(keys['ArrowDown'] && player.y < gameCanvas.height - player.h) player.y += player.speed;
+            if(keys['ArrowLeft'] && player.x > 0) player.x -= player.speed;
+            if(keys['ArrowRight'] && player.x < gameCanvas.width - player.w) player.x += player.speed;
+
+            // Draw Player
+            gCtx.fillStyle = player.color;
+            gCtx.fillRect(player.x, player.y, player.w, player.h);
+
+            // Draw Target
+            gCtx.fillStyle = target.color;
+            gCtx.fillRect(target.x, target.y, target.w, target.h);
+
+            // Check Collision (Player hits Target)
+            if (player.x < target.x + target.w && player.x + player.w > target.x &&
+                player.y < target.y + target.h && player.y + player.h > target.y) {
+                score += 10;
+                document.getElementById('game-score').innerText = "Score: " + score;
+                spawnTarget();
+                if(score % 20 === 0) spawnEnemy();
+            }
+
+            // Enemies
+            enemies.forEach((enemy, index) => {
+                enemy.x += enemy.vx;
+                enemy.y += enemy.vy;
+                
+                // Bounce
+                if(enemy.x <= 0 || enemy.x >= gameCanvas.width) enemy.vx *= -1;
+                if(enemy.y <= 0 || enemy.y >= gameCanvas.height) enemy.vy *= -1;
+
+                gCtx.fillStyle = enemy.color;
+                gCtx.fillRect(enemy.x, enemy.y, enemy.w, enemy.h);
+
+                // Collision with Player
+                if (player.x < enemy.x + enemy.w && player.x + player.w > enemy.x &&
+                    player.y < enemy.y + enemy.h && player.y + player.h > enemy.y) {
+                    gameOver();
+                }
+            });
+
+            gameLoopId = requestAnimationFrame(gameLoop);
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            gCtx.fillStyle = "white";
+            gCtx.font = "30px Arial";
+            gCtx.fillText("SYSTEM FAILURE (Game Over)", 200, 200);
+            setTimeout(() => {
+                stopGame();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
