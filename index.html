@@ -8,26 +8,29 @@
         :root {
             /* DARK MODE (Default) */
             --bg-color: #000000;
-            /* Lower opacity (0.3) for that "barely there" glass look */
-            --card-bg: rgba(20, 20, 20, 0.3); 
+            /* Increased opacity for text readability */
+            --card-bg: rgba(20, 20, 20, 0.6); 
             --card-border: rgba(255, 255, 255, 0.1);
             --text-primary: #f5f5f7;
-            --text-secondary: #86868b;
+            --text-secondary: #a1a1a6;
             --accent-blue: #2997ff;
-            --nav-bg: rgba(10, 10, 10, 0.7);
-            --shadow: 0 15px 40px rgba(0,0,0,0.4);
+            --nav-bg: rgba(10, 10, 10, 0.8);
+            --shadow: 0 8px 32px rgba(0,0,0,0.5);
+            --glass-blur: blur(25px);
         }
 
         [data-theme="light"] {
             /* LIGHT MODE */
-            --bg-color: #f2f2f7;
-            --card-bg: rgba(255, 255, 255, 0.4); /* More transparent */
-            --card-border: rgba(0, 0, 0, 0.05);
+            --bg-color: #f5f5f7;
+            /* White glass with higher opacity */
+            --card-bg: rgba(255, 255, 255, 0.75); 
+            --card-border: rgba(0, 0, 0, 0.1);
             --text-primary: #1d1d1f;
             --text-secondary: #515154;
             --accent-blue: #0071e3;
-            --nav-bg: rgba(255, 255, 255, 0.7);
-            --shadow: 0 15px 40px rgba(0,0,0,0.05);
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --shadow: 0 8px 32px rgba(0,0,0,0.1);
+            --glass-blur: blur(25px);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,13 +40,14 @@
             color: var(--text-primary);
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, sans-serif;
             overflow-x: hidden;
-            transition: background-color 0.8s ease, color 0.8s ease;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
         /* --- BACKGROUND HOLOGRAM --- */
         canvas#hologram-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
+            z-index: -1; /* Ensures it stays behind everything */
+            pointer-events: none;
         }
 
         /* --- NAVIGATION --- */
@@ -51,13 +55,13 @@
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 500px; height: 60px;
             background: var(--nav-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
             border-radius: 50px;
             border: 1px solid var(--card-border);
             display: flex; justify-content: space-around; align-items: center;
             padding: 0 10px; z-index: 1000;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
 
@@ -80,7 +84,7 @@
             border: 1px solid var(--card-border);
             color: var(--text-primary);
             padding: 10px 18px; border-radius: 20px;
-            cursor: pointer; backdrop-filter: blur(20px); font-weight: 600;
+            cursor: pointer; backdrop-filter: var(--glass-blur); font-weight: 600;
         }
 
         /* --- PAGE STRUCTURE --- */
@@ -91,7 +95,7 @@
             padding-top: 100px;
             padding-bottom: 50px;
             opacity: 0;
-            animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeIn 0.8s ease forwards;
         }
         .page-section.active { display: block; }
 
@@ -105,6 +109,8 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             text-align: center;
+            position: relative;
+            z-index: 1; /* Above canvas */
         }
 
         h1 {
@@ -112,7 +118,8 @@
             background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary) 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
-            text-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            /* Text shadow to ensure readability over stars */
+            text-shadow: 0 10px 30px rgba(0,0,0,0.2); 
         }
 
         .scroll-indicator {
@@ -124,6 +131,8 @@
         .about-detailed {
             max-width: 900px; margin: 0 auto 100px auto;
             padding: 40px 20px;
+            position: relative;
+            z-index: 1;
         }
         
         .section-title {
@@ -135,14 +144,14 @@
         .bento-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 30px; margin: 0 auto; max-width: 1200px; padding: 0 20px;
+            position: relative; z-index: 1;
         }
 
         .bento-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            /* High blur + low opacity = perfect glass */
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
             border-radius: 32px; padding: 35px;
             box-shadow: var(--shadow);
             
@@ -162,7 +171,7 @@
 
         .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
         .tag {
-            background: rgba(125,125,125,0.1); color: var(--text-primary);
+            background: rgba(125,125,125,0.15); color: var(--text-primary);
             padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
             border: 1px solid var(--card-border);
         }
@@ -174,6 +183,7 @@
             border: 1px solid var(--accent-blue); overflow: hidden;
             display: flex; justify-content: center; align-items: center;
             box-shadow: 0 0 50px rgba(41, 151, 255, 0.15);
+            z-index: 5;
         }
         canvas#game-canvas { display: block; background: #000; cursor: crosshair; }
         #game-ui {
@@ -208,7 +218,7 @@
 
     <section id="home-section" class="page-section active">
         <div class="hero-container">
-            <div style="z-index: 2;">
+            <div>
                 <h1>Fangxin (Felix) Liu</h1>
                 <p style="font-size: 1.6rem; color: var(--text-secondary); margin-bottom: 30px;">
                     System Integration & Firmware Engineer
@@ -229,7 +239,6 @@
                         I am a Computer & Systems Engineering major at <strong>Rensselaer Polytechnic Institute</strong> (GPA 3.40). 
                         My work focuses on the critical intersection where software meets hardware. I design the systems that allow code to interact with the physical world.
                         From verifying microsecond-level safety fuses at Tesla to modernizing legacy mainframes for the state government, I thrive in environments that demand precision.
-                        [cite_start][cite: 1, 4, 5, 13, 30]
                     </p>
                 </div>
                 <div class="bento-card">
@@ -239,7 +248,7 @@
                         <li><strong>Major:</strong> Computer & Systems Engineering</li>
                         <li><strong>Focus:</strong> Electronic Circuits & Hardware</li>
                         <li style="margin-top:10px; font-size:0.9rem; color:var(--text-secondary);">
-                            [cite_start]Coursework: Advanced Hardware Design, Embedded Control Systems, Computer Architecture. [cite: 6]
+                            Coursework: Advanced Hardware Design, Embedded Control Systems, Computer Architecture.
                         </li>
                     </ul>
                 </div>
@@ -266,29 +275,29 @@
         <div class="bento-grid">
             <div class="bento-card bento-wide">
                 <h3>Tesla</h3>
-                <h4>System Integration Engineer Intern | Jun 2024 - Sep 2024</h4>
+                <h4>System Integration Engineer Intern | [cite_start]Jun 2024 - Sep 2024 [cite: 10]</h4>
                 <ul>
-                    [cite_start]<li>Executed 55+ system integration tests and 80+ microsecond-level e-fuse safety tests on new generation Model Y. [cite: 13]</li>
-                    [cite_start]<li>Identified 3 safety enhancements, increasing safety rate by 50% in harsh environments. [cite: 13]</li>
-                    [cite_start]<li>Developed low-voltage electronics bucks, validating 358 subsystem parts. [cite: 15]</li>
-                    [cite_start]<li>Defined "Gen 3 Low-Voltage Electronic System Architecture" documentation. [cite: 16]</li>
+                    [cite_start]<li>Executed 55+ system integration tests and 80+ microsecond-level e-fuse safety tests on new generation Model Y[cite: 13].</li>
+                    [cite_start]<li>Identified 3 safety enhancements, increasing safety rate by 50% in harsh environments[cite: 13].</li>
+                    [cite_start]<li>Developed low-voltage electronics bucks, validating 358 subsystem parts[cite: 15].</li>
+                    [cite_start]<li>Defined "Gen 3 Low-Voltage Electronic System Architecture" documentation[cite: 16].</li>
                 </ul>
             </div>
             <div class="bento-card">
                 <h3>Tesla</h3>
-                <h4>Low Voltage Systems TPM Intern | Jan 2024 - May 2024</h4>
+                <h4>Low Voltage Systems TPM Intern | [cite_start]Jan 2024 - May 2024 [cite: 18, 19]</h4>
                 <ul>
-                    [cite_start]<li>Led construction of 7 infotainment bucks for e-call feature validation. [cite: 20]</li>
-                    [cite_start]<li>Managed Solar Chamber project for HVAC sensor team (30% accuracy improvement). [cite: 22]</li>
-                    [cite_start]<li>Managed WEBOM system tracking 2000+ components. [cite: 23]</li>
+                    [cite_start]<li>Led construction of 7 infotainment bucks for e-call feature validation[cite: 20].</li>
+                    [cite_start]<li>Managed Solar Chamber project for HVAC sensor team (30% accuracy improvement)[cite: 22].</li>
+                    [cite_start]<li>Managed WEBOM system tracking 2000+ components[cite: 23].</li>
                 </ul>
             </div>
             <div class="bento-card">
                 <h3>NYS Office of IT Services</h3>
-                <h4>Mainframe Development Intern | Feb 2023 - Dec 2023</h4>
+                <h4>Mainframe Development Intern | [cite_start]Feb 2023 - Dec 2023 [cite: 31, 33]</h4>
                 <ul>
-                    [cite_start]<li>Maintained system functionalities for a 24/7 Mainframe System serving New York State. [cite: 34]</li>
-                    [cite_start]<li>Led an intern team to remediate 200+ deprecated system routines. [cite: 36]</li>
+                    [cite_start]<li>Maintained system functionalities for a 24/7 Mainframe System serving New York State[cite: 34].</li>
+                    [cite_start]<li>Led an intern team to remediate 200+ deprecated system routines[cite: 36].</li>
                 </ul>
             </div>
         </div>
@@ -299,30 +308,30 @@
         <div class="bento-grid">
             <div class="bento-card bento-wide">
                 <h3>RPI ECSE Department</h3>
-                <h4>Research Assistant | Sep 2025 - Current</h4>
+                <h4>Research Assistant | [cite_start]Sep 2025 - Current [cite: 27, 32]</h4>
                 <p>Focusing on high-performance computing and hardware acceleration.</p>
                 <ul>
-                    [cite_start]<li>Conducting research on GPU customized operation using C++ with CUDA and CUTLASS. [cite: 28]</li>
-                    [cite_start]<li>Researching Accelerated Computation using Python with PyTorch. [cite: 29]</li>
+                    [cite_start]<li>Conducting research on GPU customized operation using C++ with CUDA and CUTLASS[cite: 28].</li>
+                    [cite_start]<li>Researching Accelerated Computation using Python with PyTorch[cite: 29].</li>
                 </ul>
             </div>
             <div class="bento-card">
                 <h3>FPGA RISC-V Processor</h3>
                 <h4>Hardware Design</h4>
-                <p>Designed a 5-stage Pipeline RISC-V Processor using System-Verilog HDL.</p>
-                [cite_start]<p>Fully supports native RISC-V assembly programs. [cite: 40]</p>
+                [cite_start]<p>Designed a 5-stage Pipeline RISC-V Processor using System-Verilog HDL[cite: 40].</p>
+                [cite_start]<p>Fully supports native RISC-V assembly programs[cite: 40].</p>
             </div>
             <div class="bento-card">
                 <h3>Ultrasonic Robotic Car</h3>
                 <h4>Embedded Systems</h4>
-                <p>Built using TI MSP-EXP432 "Launch Pad" and TI RSLK.</p>
-                [cite_start]<p>Features autonomous navigation and motion sensing joystick control. [cite: 38]</p>
+                [cite_start]<p>Built using TI MSP-EXP432 "Launch Pad" and TI RSLK[cite: 38].</p>
+                [cite_start]<p>Features autonomous navigation and motion sensing joystick control[cite: 38].</p>
             </div>
             <div class="bento-card">
                 <h3>IBM z/OS Open Source</h3>
                 <h4>RCOS Project</h4>
-                <p>Collaborated with IBM to develop z/OS open-source tools.</p>
-                [cite_start]<p>Modernizing mainframe utilities for the community. [cite: 39]</p>
+                [cite_start]<p>Collaborated with IBM to develop z/OS open-source tools[cite: 39].</p>
+                [cite_start]<p>Modernizing mainframe utilities for the community[cite: 39].</p>
             </div>
         </div>
     </section>
@@ -372,17 +381,15 @@
             }
         }
 
-        // --- UPDATED HOLOGRAM: Continuous Rotation + Mouse Steer + Less Color ---
+        // --- IMPROVED HOLOGRAM (Position Based, Heavy Water, Slow) ---
         const hCanvas = document.getElementById('hologram-canvas');
         const hCtx = hCanvas.getContext('2d');
         let hWidth, hHeight;
         let particles = [];
         
-        // ROTATION STATE
-        let angleX = 0;
-        let angleY = 0;
-        let mouseXPercent = 0;
-        let mouseYPercent = 0;
+        // Physics: Target rotation based on mouse pos, current follows slowly
+        let targetRotX = 0, targetRotY = 0;
+        let currentRotX = 0, currentRotY = 0;
 
         function resizeHologram() {
             hWidth = hCanvas.width = window.innerWidth;
@@ -390,16 +397,20 @@
         }
         window.addEventListener('resize', resizeHologram);
         
-        // Mouse determines rotation SPEED and DIRECTION
+        // MOUSE MOVE: Extremely Low Sensitivity
         window.addEventListener('mousemove', e => {
-            // Calculate percentage from center (-1 to 1)
-            mouseXPercent = (e.clientX / hWidth) * 2 - 1;
-            mouseYPercent = (e.clientY / hHeight) * 2 - 1;
+            const centerX = hWidth / 2;
+            const centerY = hHeight / 2;
+            
+            // Map mouse distance to a small angle (max +/- 10 degrees or so)
+            // Factor 0.0001 makes it very subtle
+            targetRotY = (e.clientX - centerX) * 0.0001; 
+            targetRotX = (e.clientY - centerY) * 0.0001;
         });
 
         class Star {
             constructor() {
-                const r = Math.random() * 800 + 200; // Distance from center
+                const r = Math.random() * 800 + 200; 
                 const theta = Math.random() * 2 * Math.PI;
                 const phi = Math.acos((Math.random() * 2) - 1);
 
@@ -410,25 +421,21 @@
                 this.x = this.baseX; this.y = this.baseY; this.z = this.baseZ;
 
                 this.size = Math.random() * 2 + 0.5;
-                
-                // LIMITED PALETTE: White, Grey, Cyan (No Purple/Green)
+                // Monochrome/Cyan palette
                 const colors = ['#ffffff', '#e0e0e0', '#a1c4fd'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
             }
 
             update() {
-                // CONTINUOUS ROTATION LOGIC
-                // Base speed + Mouse Influence
-                // The universe always spins, mouse just steers it
-                const baseSpeed = 0.001; 
-                const mouseFactor = 0.003; 
+                // "Heavy Water" Damping (Lerp with low factor)
+                // 0.05 is the friction/smoothing factor
+                currentRotX += (targetRotX - currentRotX) * 0.05; 
+                currentRotY += (targetRotY - currentRotY) * 0.05;
 
-                angleY += baseSpeed + (mouseXPercent * mouseFactor);
-                angleX += baseSpeed + (mouseYPercent * mouseFactor);
-
-                // Apply Rotation Matrices
-                const cosY = Math.cos(angleY); const sinY = Math.sin(angleY);
-                const cosX = Math.cos(angleX); const sinX = Math.sin(angleX);
+                const cosY = Math.cos(currentRotY);
+                const sinY = Math.sin(currentRotY);
+                const cosX = Math.cos(currentRotX);
+                const sinX = Math.sin(currentRotX);
 
                 // Rotate Y
                 let dx = this.baseX * cosY - this.baseZ * sinY;
@@ -451,10 +458,9 @@
 
                 hCtx.fillStyle = this.color;
                 
-                // Adjust visibility based on theme
                 if(document.body.getAttribute('data-theme') === 'light') {
-                    hCtx.fillStyle = '#1d1d1f'; // Dark dots for light mode
-                    hCtx.globalAlpha = 0.4;
+                    hCtx.fillStyle = '#1d1d1f'; 
+                    hCtx.globalAlpha = 0.3;
                 } else {
                     hCtx.globalAlpha = 0.8;
                 }
@@ -469,7 +475,7 @@
         function initHologram() {
             resizeHologram();
             particles = [];
-            for(let i=0; i<900; i++) particles.push(new Star());
+            for(let i=0; i<1000; i++) particles.push(new Star());
             animateHologram();
         }
 
