@@ -8,21 +8,19 @@
         :root {
             /* DARK MODE (Default) */
             --bg-color: #000000;
-            /* Increased opacity for text readability */
-            --card-bg: rgba(20, 20, 20, 0.6); 
+            --card-bg: rgba(20, 20, 20, 0.65); 
             --card-border: rgba(255, 255, 255, 0.1);
             --text-primary: #f5f5f7;
             --text-secondary: #a1a1a6;
             --accent-blue: #2997ff;
             --nav-bg: rgba(10, 10, 10, 0.8);
             --shadow: 0 8px 32px rgba(0,0,0,0.5);
-            --glass-blur: blur(25px);
+            --glass-blur: blur(30px);
         }
 
         [data-theme="light"] {
             /* LIGHT MODE */
             --bg-color: #f5f5f7;
-            /* White glass with higher opacity */
             --card-bg: rgba(255, 255, 255, 0.75); 
             --card-border: rgba(0, 0, 0, 0.1);
             --text-primary: #1d1d1f;
@@ -30,7 +28,6 @@
             --accent-blue: #0071e3;
             --nav-bg: rgba(255, 255, 255, 0.85);
             --shadow: 0 8px 32px rgba(0,0,0,0.1);
-            --glass-blur: blur(25px);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -46,7 +43,7 @@
         /* --- BACKGROUND HOLOGRAM --- */
         canvas#hologram-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; /* Ensures it stays behind everything */
+            z-index: -1; 
             pointer-events: none;
         }
 
@@ -110,7 +107,7 @@
             justify-content: center; align-items: center;
             text-align: center;
             position: relative;
-            z-index: 1; /* Above canvas */
+            z-index: 1; 
         }
 
         h1 {
@@ -118,7 +115,6 @@
             background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary) 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
-            /* Text shadow to ensure readability over stars */
             text-shadow: 0 10px 30px rgba(0,0,0,0.2); 
         }
 
@@ -178,7 +174,11 @@
 
         /* --- GAME UI --- */
         #game-wrapper {
-            position: relative; width: 100%; height: 550px;
+            position: relative; 
+            width: 100%; 
+            max-width: 800px; /* Narrower */
+            height: 500px;
+            margin: 0 auto;
             background: #000; border-radius: 32px;
             border: 1px solid var(--accent-blue); overflow: hidden;
             display: flex; justify-content: center; align-items: center;
@@ -275,29 +275,29 @@
         <div class="bento-grid">
             <div class="bento-card bento-wide">
                 <h3>Tesla</h3>
-                <h4>System Integration Engineer Intern | [cite_start]Jun 2024 - Sep 2024 [cite: 10]</h4>
+                <h4>System Integration Engineer Intern | Jun 2024 - Sep 2024</h4>
                 <ul>
-                    [cite_start]<li>Executed 55+ system integration tests and 80+ microsecond-level e-fuse safety tests on new generation Model Y[cite: 13].</li>
-                    [cite_start]<li>Identified 3 safety enhancements, increasing safety rate by 50% in harsh environments[cite: 13].</li>
-                    [cite_start]<li>Developed low-voltage electronics bucks, validating 358 subsystem parts[cite: 15].</li>
-                    [cite_start]<li>Defined "Gen 3 Low-Voltage Electronic System Architecture" documentation[cite: 16].</li>
+                    <li>Executed 55+ system integration tests and 80+ microsecond-level e-fuse safety tests on new generation Model Y.</li>
+                    <li>Identified 3 safety enhancements, increasing safety rate by 50% in harsh environments.</li>
+                    <li>Developed low-voltage electronics bucks, validating 358 subsystem parts.</li>
+                    <li>Defined "Gen 3 Low-Voltage Electronic System Architecture" documentation.</li>
                 </ul>
             </div>
             <div class="bento-card">
                 <h3>Tesla</h3>
-                <h4>Low Voltage Systems TPM Intern | [cite_start]Jan 2024 - May 2024 [cite: 18, 19]</h4>
+                <h4>Low Voltage Systems TPM Intern | Jan 2024 - May 2024</h4>
                 <ul>
-                    [cite_start]<li>Led construction of 7 infotainment bucks for e-call feature validation[cite: 20].</li>
-                    [cite_start]<li>Managed Solar Chamber project for HVAC sensor team (30% accuracy improvement)[cite: 22].</li>
-                    [cite_start]<li>Managed WEBOM system tracking 2000+ components[cite: 23].</li>
+                    <li>Led construction of 7 infotainment bucks for e-call feature validation.</li>
+                    <li>Managed Solar Chamber project for HVAC sensor team (30% accuracy improvement).</li>
+                    <li>Managed WEBOM system tracking 2000+ components.</li>
                 </ul>
             </div>
             <div class="bento-card">
                 <h3>NYS Office of IT Services</h3>
-                <h4>Mainframe Development Intern | [cite_start]Feb 2023 - Dec 2023 [cite: 31, 33]</h4>
+                <h4>Mainframe Development Intern | Feb 2023 - Dec 2023</h4>
                 <ul>
-                    [cite_start]<li>Maintained system functionalities for a 24/7 Mainframe System serving New York State[cite: 34].</li>
-                    [cite_start]<li>Led an intern team to remediate 200+ deprecated system routines[cite: 36].</li>
+                    <li>Maintained system functionalities for a 24/7 Mainframe System serving New York State.</li>
+                    <li>Led an intern team to remediate 200+ deprecated system routines.</li>
                 </ul>
             </div>
         </div>
@@ -308,30 +308,30 @@
         <div class="bento-grid">
             <div class="bento-card bento-wide">
                 <h3>RPI ECSE Department</h3>
-                <h4>Research Assistant | [cite_start]Sep 2025 - Current [cite: 27, 32]</h4>
+                <h4>Research Assistant | Sep 2025 - Current</h4>
                 <p>Focusing on high-performance computing and hardware acceleration.</p>
                 <ul>
-                    [cite_start]<li>Conducting research on GPU customized operation using C++ with CUDA and CUTLASS[cite: 28].</li>
-                    [cite_start]<li>Researching Accelerated Computation using Python with PyTorch[cite: 29].</li>
+                    <li>Conducting research on GPU customized operation using C++ with CUDA and CUTLASS.</li>
+                    <li>Researching Accelerated Computation using Python with PyTorch.</li>
                 </ul>
             </div>
             <div class="bento-card">
                 <h3>FPGA RISC-V Processor</h3>
                 <h4>Hardware Design</h4>
-                [cite_start]<p>Designed a 5-stage Pipeline RISC-V Processor using System-Verilog HDL[cite: 40].</p>
-                [cite_start]<p>Fully supports native RISC-V assembly programs[cite: 40].</p>
+                <p>Designed a 5-stage Pipeline RISC-V Processor using System-Verilog HDL.</p>
+                <p>Fully supports native RISC-V assembly programs.</p>
             </div>
             <div class="bento-card">
                 <h3>Ultrasonic Robotic Car</h3>
                 <h4>Embedded Systems</h4>
-                [cite_start]<p>Built using TI MSP-EXP432 "Launch Pad" and TI RSLK[cite: 38].</p>
-                [cite_start]<p>Features autonomous navigation and motion sensing joystick control[cite: 38].</p>
+                <p>Built using TI MSP-EXP432 "Launch Pad" and TI RSLK.</p>
+                <p>Features autonomous navigation and motion sensing joystick control.</p>
             </div>
             <div class="bento-card">
                 <h3>IBM z/OS Open Source</h3>
                 <h4>RCOS Project</h4>
-                [cite_start]<p>Collaborated with IBM to develop z/OS open-source tools[cite: 39].</p>
-                [cite_start]<p>Modernizing mainframe utilities for the community[cite: 39].</p>
+                <p>Collaborated with IBM to develop z/OS open-source tools.</p>
+                <p>Modernizing mainframe utilities for the community.</p>
             </div>
         </div>
     </section>
@@ -381,15 +381,19 @@
             }
         }
 
-        // --- IMPROVED HOLOGRAM (Position Based, Heavy Water, Slow) ---
+        // --- HOLOGRAM: ROTATING UNIVERSE ---
         const hCanvas = document.getElementById('hologram-canvas');
         const hCtx = hCanvas.getContext('2d');
         let hWidth, hHeight;
         let particles = [];
         
-        // Physics: Target rotation based on mouse pos, current follows slowly
-        let targetRotX = 0, targetRotY = 0;
-        let currentRotX = 0, currentRotY = 0;
+        // Rotation State
+        let angleX = 0;
+        let angleY = 0;
+        
+        // Mouse Influence
+        let mouseX = 0;
+        let mouseY = 0;
 
         function resizeHologram() {
             hWidth = hCanvas.width = window.innerWidth;
@@ -397,15 +401,9 @@
         }
         window.addEventListener('resize', resizeHologram);
         
-        // MOUSE MOVE: Extremely Low Sensitivity
         window.addEventListener('mousemove', e => {
-            const centerX = hWidth / 2;
-            const centerY = hHeight / 2;
-            
-            // Map mouse distance to a small angle (max +/- 10 degrees or so)
-            // Factor 0.0001 makes it very subtle
-            targetRotY = (e.clientX - centerX) * 0.0001; 
-            targetRotX = (e.clientY - centerY) * 0.0001;
+            mouseX = (e.clientX - hWidth / 2) * 0.0001; 
+            mouseY = (e.clientY - hHeight / 2) * 0.0001;
         });
 
         class Star {
@@ -414,6 +412,7 @@
                 const theta = Math.random() * 2 * Math.PI;
                 const phi = Math.acos((Math.random() * 2) - 1);
 
+                // Base coordinates (Static Sphere)
                 this.baseX = r * Math.sin(phi) * Math.cos(theta);
                 this.baseY = r * Math.sin(phi) * Math.sin(theta);
                 this.baseZ = r * Math.cos(phi);
@@ -421,27 +420,30 @@
                 this.x = this.baseX; this.y = this.baseY; this.z = this.baseZ;
 
                 this.size = Math.random() * 2 + 0.5;
-                // Monochrome/Cyan palette
                 const colors = ['#ffffff', '#e0e0e0', '#a1c4fd'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
             }
 
             update() {
-                // "Heavy Water" Damping (Lerp with low factor)
-                // 0.05 is the friction/smoothing factor
-                currentRotX += (targetRotX - currentRotX) * 0.05; 
-                currentRotY += (targetRotY - currentRotY) * 0.05;
+                // CONSTANT ROTATION (The "Planet" effect)
+                // We increment angle constantly
+                const autoSpeed = 0.0005; // Base rotation speed
+                
+                // Mouse modifies the rotation speed/direction slightly
+                angleY += autoSpeed + mouseX;
+                angleX += autoSpeed + mouseY;
 
-                const cosY = Math.cos(currentRotY);
-                const sinY = Math.sin(currentRotY);
-                const cosX = Math.cos(currentRotX);
-                const sinX = Math.sin(currentRotX);
+                // Standard Rotation Matrix
+                const cosY = Math.cos(angleY);
+                const sinY = Math.sin(angleY);
+                const cosX = Math.cos(angleX);
+                const sinX = Math.sin(angleX);
 
-                // Rotate Y
+                // 1. Rotate around Y axis
                 let dx = this.baseX * cosY - this.baseZ * sinY;
                 let dz = this.baseZ * cosY + this.baseX * sinY;
                 
-                // Rotate X
+                // 2. Rotate around X axis
                 let dy = this.baseY * cosX - dz * sinX;
                 dz = dz * cosX + this.baseY * sinX;
 
