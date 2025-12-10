@@ -8,30 +8,28 @@
         :root {
             /* DARK MODE (Default) */
             --bg-color: #050505;
-            --card-bg: rgba(30, 30, 30, 0.6);
-            --card-border: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(20, 20, 20, 0.6);
+            --card-border: rgba(255, 255, 255, 0.08);
             --text-primary: #f5f5f7;
             --text-secondary: #86868b;
             --accent-blue: #2997ff;
-            --accent-glow: rgba(41, 151, 255, 0.4);
-            --nav-bg: rgba(20, 20, 20, 0.8);
-            --btn-bg: #fff;
-            --btn-text: #000;
-            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --accent-purple: #bf5af2;
+            --accent-cyan: #30d158;
+            --nav-bg: rgba(18, 18, 18, 0.8);
+            --shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
 
         [data-theme="light"] {
             /* LIGHT MODE */
-            --bg-color: #f2f2f7;
-            --card-bg: rgba(255, 255, 255, 0.75);
+            --bg-color: #f5f5f7;
+            --card-bg: rgba(255, 255, 255, 0.65);
             --card-border: rgba(0, 0, 0, 0.05);
             --text-primary: #1d1d1f;
             --text-secondary: #515154;
             --accent-blue: #0071e3;
-            --accent-glow: rgba(0, 113, 227, 0.2);
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --btn-bg: #1d1d1f;
-            --btn-text: #fff;
+            --accent-purple: #af52de;
+            --accent-cyan: #00c7be;
+            --nav-bg: rgba(255, 255, 255, 0.8);
             --shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
@@ -42,38 +40,28 @@
             color: var(--text-primary);
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, sans-serif;
             overflow-x: hidden;
-            transition: background-color 0.5s ease, color 0.5s ease;
+            transition: background-color 0.8s ease, color 0.8s ease;
         }
 
-        /* --- THEME TOGGLE --- */
-        #theme-toggle {
-            position: fixed; top: 25px; right: 25px;
-            z-index: 1001;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-primary);
-            padding: 10px 18px;
-            border-radius: 20px;
-            cursor: pointer;
-            backdrop-filter: blur(20px);
-            font-weight: 600;
-            transition: transform 0.2s;
+        /* --- BACKGROUND HOLOGRAM (FIXED) --- */
+        canvas#hologram-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
         }
-        #theme-toggle:hover { transform: scale(1.05); }
 
         /* --- NAVIGATION --- */
         nav {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 500px; height: 60px;
             background: var(--nav-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border-radius: 50px;
             border: 1px solid var(--card-border);
             display: flex; justify-content: space-around; align-items: center;
             padding: 0 10px; z-index: 1000;
-            box-shadow: var(--shadow);
-            transition: background 0.5s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
         }
 
         .nav-item {
@@ -82,136 +70,134 @@
             padding: 8px 18px; border-radius: 30px;
             transition: all 0.3s ease;
         }
-        .nav-item:hover { color: var(--text-primary); }
+        .nav-item:hover { color: var(--text-primary); background: rgba(125,125,125,0.1); }
         .nav-item.active { 
             color: #fff; 
             background: var(--accent-blue); 
-            box-shadow: 0 0 15px var(--accent-glow); 
+            box-shadow: 0 0 20px rgba(41, 151, 255, 0.4); 
         }
 
-        /* --- LAYOUT STRUCTURE (Fixes rendering bug) --- */
-        main {
-            position: relative;
+        #theme-toggle {
+            position: fixed; top: 25px; right: 25px; z-index: 1001;
+            background: var(--nav-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 10px 18px; border-radius: 20px;
+            cursor: pointer; backdrop-filter: blur(20px); font-weight: 600;
+        }
+
+        /* --- PAGE STRUCTURE --- */
+        /* All sections are hidden by default, except active */
+        .page-section {
+            display: none;
             width: 100%;
             min-height: 100vh;
-            padding-top: 80px; /* Space for nav */
-        }
-
-        .section-container {
-            display: none; /* Default hidden */
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px 100px 20px;
+            padding-top: 100px;
+            padding-bottom: 50px;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            animation: fadeIn 0.8s forwards;
         }
+        .page-section.active { display: block; }
 
-        .section-container.active {
-            display: block;
-            opacity: 1;
-            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+        @keyframes fadeIn { to { opacity: 1; } }
 
-        /* --- HERO (Special Case) --- */
-        #hero-section {
-            display: none;
-            position: relative; 
-            height: 90vh; /* Full viewport height minus a bit */
-            width: 100%;
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center;
-            overflow: hidden;
-            margin-top: -80px; /* Counteract main padding for full screen look */
-        }
+        /* --- HOME SPECIFIC --- */
+        #home-section { padding-top: 0; }
         
-        #hero-section.active { display: flex; opacity: 1; }
-
-        canvas#hologram-canvas {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-        }
-
-        .hero-content {
-            z-index: 2; text-align: center; pointer-events: none;
+        .hero-container {
+            height: 100vh; width: 100%;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center;
         }
 
         h1 {
-            font-size: 5rem; font-weight: 800; letter-spacing: -0.03em;
-            background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary) 100%);
+            font-size: 5.5rem; font-weight: 800; letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--text-primary) 20%, var(--text-secondary) 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
-            text-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
 
-        .github-btn {
-            pointer-events: auto;
-            display: inline-block;
-            margin-top: 30px;
-            padding: 14px 35px;
-            background: var(--btn-bg); color: var(--btn-text);
-            text-decoration: none; font-weight: 600; border-radius: 30px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        }
-        .github-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px var(--accent-glow);
+        .scroll-indicator {
+            position: absolute; bottom: 40px;
+            color: var(--text-secondary);
+            animation: bounce 2s infinite; opacity: 0.7; font-size: 0.9rem;
         }
 
-        /* --- BENTO GRID CARDS --- */
+        .about-detailed {
+            max-width: 900px; margin: 0 auto 100px auto;
+            padding: 40px 20px;
+        }
+        
+        .section-title {
+            font-size: 2.5rem; text-align: center; margin-bottom: 40px;
+            color: var(--text-primary);
+        }
+
+        /* --- BENTO CARDS (THE OPAQUE LOOK) --- */
         .bento-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px; margin-top: 20px; perspective: 1000px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px; margin: 0 auto; max-width: 1200px; padding: 0 20px;
         }
 
         .bento-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 28px; padding: 35px;
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 32px; padding: 35px;
             box-shadow: var(--shadow);
+            
+            /* 3D Transform Defaults */
             transform-style: preserve-3d;
             will-change: transform;
-            transition: box-shadow 0.3s;
+            /* Default state: smooth return */
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
         }
-        
-        .bento-card h3 { font-size: 1.5rem; margin-bottom: 5px; color: var(--text-primary); }
-        .bento-card h4 { font-size: 0.95rem; color: var(--accent-blue); margin-bottom: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-        .bento-card p, .bento-card ul { color: var(--text-secondary); line-height: 1.6; font-size: 1rem; }
-        .bento-card ul { padding-left: 20px; margin-top: 10px; }
-        .bento-card li { margin-bottom: 8px; }
+
+        /* State when moving: No transition lag */
+        .bento-card.moving {
+            transition: transform 0.1s linear; 
+        }
+
+        .bento-card h3 { font-size: 1.6rem; margin-bottom: 8px; color: var(--text-primary); letter-spacing: -0.01em;}
+        .bento-card h4 { font-size: 0.9rem; color: var(--accent-blue); margin-bottom: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .bento-card p, .bento-card ul { color: var(--text-secondary); line-height: 1.7; font-size: 1rem; }
+        .bento-card ul { padding-left: 20px; margin-top: 15px; }
+        .bento-card li { margin-bottom: 10px; }
         .bento-wide { grid-column: 1 / -1; }
+
+        .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+        .tag {
+            background: rgba(125,125,125,0.1); color: var(--text-primary);
+            padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
+            border: 1px solid var(--card-border);
+        }
 
         /* --- GAME UI --- */
         #game-wrapper {
-            position: relative; width: 100%; height: 500px;
-            background: #000; border-radius: 28px;
-            border: 2px solid var(--accent-blue); overflow: hidden;
+            position: relative; width: 100%; height: 550px;
+            background: #000; border-radius: 32px;
+            border: 1px solid var(--accent-blue); overflow: hidden;
             display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 0 40px var(--accent-glow);
+            box-shadow: 0 0 50px rgba(41, 151, 255, 0.15);
         }
         canvas#game-canvas { display: block; background: #000; cursor: crosshair; }
         #game-ui {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            text-align: center; background: rgba(0,0,0,0.85); padding: 40px; border-radius: 20px;
-            backdrop-filter: blur(10px); border: 1px solid var(--accent-blue); color: #fff;
-            z-index: 10;
+            text-align: center; background: rgba(10, 10, 10, 0.85); padding: 50px; border-radius: 30px;
+            backdrop-filter: blur(20px); border: 1px solid var(--accent-blue); color: #fff;
         }
         button.play-btn {
             background: var(--accent-blue); color: white; border: none;
-            padding: 12px 30px; font-size: 1.1rem; border-radius: 30px;
-            cursor: pointer; font-weight: 600; margin-top: 20px;
+            padding: 15px 40px; font-size: 1.1rem; border-radius: 40px;
+            cursor: pointer; font-weight: 600; margin-top: 25px;
             transition: transform 0.2s;
         }
-        button.play-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--accent-glow); }
+        button.play-btn:hover { transform: scale(1.05); }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
 
     </style>
 </head>
@@ -226,128 +212,167 @@
         <div class="nav-item" onclick="switchTab('game')">Game</div>
     </nav>
 
-    <main>
-        <section id="hero-section" class="active">
-            <canvas id="hologram-canvas"></canvas>
-            <div class="hero-content">
+    <canvas id="hologram-canvas"></canvas>
+
+    <section id="home-section" class="page-section active">
+        <div class="hero-container">
+            <div style="z-index: 2;">
                 <h1>Fangxin (Felix) Liu</h1>
-                <p style="font-size: 1.5rem; color: var(--text-secondary);">System Integration & Firmware Engineer</p>
-                <a href="https://github.com/FrodoLFX" target="_blank" class="github-btn">
-                    Visit GitHub Profile
+                <p style="font-size: 1.6rem; color: var(--text-secondary); margin-bottom: 20px;">
+                    System Integration & Firmware Engineer
+                </p>
+                <div class="tag-container" style="justify-content: center; margin-bottom: 30px;">
+                    <span class="tag">RPI '26</span>
+                    <span class="tag">Tesla Alumni</span>
+                    <span class="tag">NYS ITS Alumni</span>
+                </div>
+                <a href="https://github.com/FrodoLFX" target="_blank" style="color: var(--accent-blue); text-decoration: none; font-weight: 600; font-size: 1.1rem;">
+                    GitHub Profile &nearr;
                 </a>
             </div>
-            <div class="bento-grid" style="width: 100%; max-width: 900px; margin-top: 60px; z-index: 2;">
-                <div class="bento-card bento-wide" style="background: rgba(15,15,15,0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05);">
-                    <h3 style="text-align: center; font-size: 1.2rem; color: #aaa;">About Me</h3>
-                    <p style="text-align: center; margin-top: 10px;">
-                        RPI Class of 2026. Specializing in embedded systems, FPGA, and high-performance computing. 
-                        Bridging the gap between hardware and software.
+            <div class="scroll-indicator">Scroll to Explore</div>
+        </div>
+
+        <div class="about-detailed">
+            <h2 class="section-title">About Me</h2>
+            <div class="bento-grid">
+                <div class="bento-card bento-wide">
+                    <h3>Engineering Philosophy</h3>
+                    <p>
+                        I am a Computer & Systems Engineering major at <strong>Rensselaer Polytechnic Institute</strong> (GPA 3.40). 
+                        My work focuses on the critical intersection where software meets hardware. I don't just write code; I design the systems that allow code to interact with the physical world.
+                        From verifying microsecond-level safety fuses at Tesla to modernizing legacy mainframes for the state government, I thrive in environments that demand precision and reliability.
                     </p>
                 </div>
-            </div>
-        </section>
-
-        <div id="work" class="section-container">
-            <h2 style="text-align:center; font-size:3rem; margin-bottom:40px;">Experience</h2>
-            <div class="bento-grid">
-                <div class="bento-card bento-wide">
-                    <h3>Tesla</h3>
-                    <h4>System Integration Engineer Intern | Jun 2024 - Sep 2024</h4>
-                    <ul>
-                        <li>Executed 55+ system integration tests and 80+ microsecond-level e-fuse safety tests on Model Y.</li>
-                        <li>Designed protections increasing safety rate by 50% in harsh environments.</li>
-                        <li>Validated 358 subsystem parts configurations for low-voltage electronics.</li>
-                        <li>Gathered 5000+ data sets for thermal modeling.</li>
+                <div class="bento-card">
+                    <h3>Education & Coursework</h3>
+                    <h4>RPI | Class of 2026</h4>
+                    <ul style="padding:0; list-style:none;">
+                        <li><strong>Major:</strong> Computer & Systems Engineering</li>
+                        <li><strong>Focus:</strong> Electronic Circuits & Hardware</li>
+                        <li style="margin-top:10px; font-size:0.9rem; color:var(--text-secondary);">
+                            Relevant Courses: Advanced Computer Hardware Design, Embedded Control Systems, Computer Architecture, Network & Operating Systems.
+                        </li>
                     </ul>
                 </div>
                 <div class="bento-card">
-                    <h3>Tesla</h3>
-                    <h4>Low Voltage Systems TPM Intern | Jan 2024 - May 2024</h4>
-                    <ul>
-                        <li>Led construction of 7 infotainment bucks for e-call validation.</li>
-                        <li>Managed Solar Chamber project, improving sensor accuracy by 30%.</li>
-                    </ul>
-                </div>
-                <div class="bento-card">
-                    <h3>NYS Office of IT Services</h3>
-                    <h4>Mainframe Development Intern | Feb 2023 - Dec 2023</h4>
-                    <ul>
-                        <li>Maintained 24/7 Mainframe System serving New York State.</li>
-                        <li>Remediated 200+ deprecated system routines.</li>
-                    </ul>
+                    <h3>Technical Stack</h3>
+                    <h4>Tools of the Trade</h4>
+                    <div class="tag-container">
+                        <span class="tag">C++ / C</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">CUDA</span>
+                        <span class="tag">System Verilog</span>
+                        <span class="tag">RISC-V Assembly</span>
+                        <span class="tag">FPGA</span>
+                        <span class="tag">Oscilloscopes</span>
+                        <span class="tag">MATLAB</span>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div id="projects" class="section-container">
-            <h2 style="text-align:center; font-size:3rem; margin-bottom:40px;">Projects & Research</h2>
-            <div class="bento-grid">
-                <div class="bento-card bento-wide">
-                    <h3>RPI ECSE Department</h3>
-                    <h4>Research Assistant | Sep 2025 - Current</h4>
-                    <ul>
-                        <li>Researching GPU customized operation using C++ with CUDA and CUTLASS.</li>
-                        <li>Accelerated Computation using Python with PyTorch.</li>
-                    </ul>
-                </div>
-                <div class="bento-card">
-                    <h3>FPGA Processor</h3>
-                    <h4>System Verilog</h4>
-                    <p>Designed a 5-stage Pipeline RISC-V Processor supporting assembly programs.</p>
-                </div>
-                <div class="bento-card">
-                    <h3>Robotic Car</h3>
-                    <h4>Embedded C / TI MSP432</h4>
-                    <p>Built a robotic car with autonomous navigation logic and motion sensing joystick.</p>
-                </div>
-                <div class="bento-card">
-                    <h3>IBM z/OS Open Source</h3>
-                    <h4>Mainframe Utility</h4>
-                    <p>Contributed to z/OS open-source development modernizing mainframe utilities.</p>
-                </div>
+    <section id="work-section" class="page-section">
+        <h2 class="section-title">Professional Experience</h2>
+        <div class="bento-grid">
+            <div class="bento-card bento-wide">
+                <h3>Tesla</h3>
+                <h4>System Integration Engineer Intern | Jun 2024 - Sep 2024</h4>
+                <ul>
+                    <li>Executed 55+ system integration tests and 80+ microsecond-level e-fuse safety tests on new generation Model Y.</li>
+                    <li>Identified and proposed 3 potential safety enhancements for newly designed electronic components.</li>
+                    <li>Implemented new protection measures and PCB components, increasing safety rate by 50% in harsh environments.</li>
+                    <li>Defined Tesla Gen 3 Low-Voltage Electronic System Architecture documentation.</li>
+                </ul>
+            </div>
+            <div class="bento-card">
+                <h3>Tesla</h3>
+                <h4>Low Voltage Systems TPM Intern | Jan 2024 - May 2024</h4>
+                <ul>
+                    <li>Led the construction and management of 7 infotainment bucks for e-call feature validation.</li>
+                    <li>Managed the Solar Chamber project for the HVAC sensor team (30% accuracy improvement).</li>
+                    <li>Managed Tesla Web Engineering Bill of Material (WEBOM) for 2000+ components.</li>
+                </ul>
+            </div>
+            <div class="bento-card">
+                <h3>NYS Office of IT Services</h3>
+                <h4>Mainframe Development Intern | Feb 2023 - Dec 2023</h4>
+                <ul>
+                    <li>Maintained system functionalities for a 24/7 Mainframe System serving New York State.</li>
+                    <li>Led an intern team to remediate 200+ deprecated system routines.</li>
+                </ul>
             </div>
         </div>
+    </section>
 
-        <div id="game" class="section-container">
-            <h2 style="text-align:center; margin-bottom:20px;">Packet Defender</h2>
-            <div id="game-wrapper">
-                <div id="game-ui">
-                    <h2>System Security Breach</h2>
-                    <p style="margin: 20px 0; color: #ccc;">Click to Shoot. Move Mouse to Aim.</p>
-                    <button class="play-btn" onclick="initGame()">START DEFENSE</button>
-                </div>
-                <canvas id="game-canvas"></canvas>
+    <section id="projects-section" class="page-section">
+        <h2 class="section-title">Projects & Research</h2>
+        <div class="bento-grid">
+            <div class="bento-card bento-wide">
+                <h3>RPI ECSE Department</h3>
+                <h4>Research Assistant | Sep 2025 - Current</h4>
+                <p>Focusing on high-performance computing and hardware acceleration.</p>
+                <ul>
+                    <li>Conducting research on GPU customized operation using C++ with CUDA and CUTLASS.</li>
+                    <li>Researching Accelerated Computation using Python with PyTorch.</li>
+                </ul>
+            </div>
+            <div class="bento-card">
+                <h3>FPGA RISC-V Processor</h3>
+                <h4>Hardware Design</h4>
+                <p>Designed a 5-stage Pipeline RISC-V Processor using System-Verilog HDL.</p>
+                <p>Fully supports native RISC-V assembly programs.</p>
+            </div>
+            <div class="bento-card">
+                <h3>Ultrasonic Robotic Car</h3>
+                <h4>Embedded Systems</h4>
+                <p>Built using TI MSP-EXP432 "Launch Pad" and TI RSLK.</p>
+                <p>Features autonomous navigation and motion sensing joystick control.</p>
+            </div>
+            <div class="bento-card">
+                <h3>IBM z/OS Open Source</h3>
+                <h4>RCOS Project</h4>
+                <p>Collaborated with IBM to develop z/OS open-source tools.</p>
+                <p>Worked on modernizing mainframe utilities for the open source community.</p>
             </div>
         </div>
-    </main>
+    </section>
+
+    <section id="game-section" class="page-section">
+        <h2 class="section-title">Packet Defender</h2>
+        <div id="game-wrapper">
+            <div id="game-ui">
+                <h2>System Security Breach</h2>
+                <p style="margin: 20px 0; color: #ccc;">Protect the Core. Shoot the red packets.</p>
+                <button class="play-btn" onclick="initGame()">INITIALIZE DEFENSE</button>
+            </div>
+            <canvas id="game-canvas"></canvas>
+        </div>
+    </section>
 
     <script>
-        // --- TAB SWITCHING (FIXED LAYOUT BUG) ---
-        function switchTab(id) {
-            window.scrollTo(0,0); // Force scroll reset to prevent empty space
-            
-            // 1. Update Nav
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            const activeBtn = Array.from(document.querySelectorAll('.nav-item'))
-                                   .find(el => el.getAttribute('onclick').includes(id));
-            if(activeBtn) activeBtn.classList.add('active');
+        // --- TAB SWITCHING WITH SCROLL RESET ---
+        function switchTab(tabName) {
+            // 1. Force Scroll to top
+            window.scrollTo(0,0);
 
-            // 2. Hide Everything First
-            document.getElementById('hero-section').classList.remove('active');
-            document.querySelectorAll('.section-container').forEach(el => {
-                el.classList.remove('active');
+            // 2. Update Nav UI
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            const activeNav = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick').includes(tabName));
+            if(activeNav) activeNav.classList.add('active');
+
+            // 3. Hide all sections, Show active
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
             });
+            
+            const targetId = tabName + '-section';
+            const targetSection = document.getElementById(targetId);
+            targetSection.classList.add('active');
 
-            // 3. Show Target
-            if (id === 'home') {
-                document.getElementById('hero-section').classList.add('active');
-            } else {
-                const target = document.getElementById(id);
-                target.classList.add('active');
-            }
-
-            // 4. Handle Game State
-            if(id === 'game') resizeGame();
+            // 4. Game Logic
+            if(tabName === 'game') resizeGame();
             else gameRunning = false;
         }
 
@@ -364,13 +389,14 @@
             }
         }
 
-        // --- IMPROVED HOLOGRAM (Slow + Fog + Light Mode) ---
+        // --- IMPROVED HOLOGRAM (Slow, Colorful, Wavy) ---
         const hCanvas = document.getElementById('hologram-canvas');
         const hCtx = hCanvas.getContext('2d');
         let hWidth, hHeight;
         let particles = [];
+        let time = 0;
         
-        // Physics variables
+        // Very dampened mouse physics
         let targetRotX = 0, targetRotY = 0;
         let currentRotX = 0, currentRotY = 0;
 
@@ -379,118 +405,108 @@
             hHeight = hCanvas.height = window.innerHeight;
         }
         window.addEventListener('resize', resizeHologram);
-
-        // MOUSE MOVE: Extremely Low Sensitivity
+        
+        // Minimal sensitivity
         window.addEventListener('mousemove', e => {
-            // Mapping mouse position to a small rotation angle
-            // Factor 0.00005 is VERY slow
-            targetRotX = (e.clientX - hWidth/2) * 0.00005; 
-            targetRotY = (e.clientY - hHeight/2) * 0.00005;
+            targetRotX = (e.clientX - hWidth/2) * 0.00008;
+            targetRotY = (e.clientY - hHeight/2) * 0.00008;
         });
 
         class Star {
-            constructor(isFog) {
-                this.isFog = isFog;
-                const r = isFog ? (Math.random() * 800 + 200) : (Math.random() * 800 + 400); // Radius
+            constructor() {
+                const r = Math.random() * 800 + 200;
                 const theta = Math.random() * 2 * Math.PI;
                 const phi = Math.acos((Math.random() * 2) - 1);
 
-                this.x = r * Math.sin(phi) * Math.cos(theta);
-                this.y = r * Math.sin(phi) * Math.sin(theta);
-                this.z = r * Math.cos(phi);
+                this.baseX = r * Math.sin(phi) * Math.cos(theta);
+                this.baseY = r * Math.sin(phi) * Math.sin(theta);
+                this.baseZ = r * Math.cos(phi);
                 
-                this.size = isFog ? Math.random() * 1.5 : Math.random() * 2.5 + 1;
-                this.baseAlpha = Math.random();
+                this.x = this.baseX; this.y = this.baseY; this.z = this.baseZ;
+
+                this.size = Math.random() * 2 + 0.5;
+                // Cosmic Palette
+                const colors = ['#ffffff', '#2997ff', '#bf5af2', '#30d158']; 
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.offset = Math.random() * 100; // For wave motion
             }
 
             update() {
-                // Smooth Lerp (Linear Interpolation) for lazy movement
+                // Smooth Camera rotation
                 currentRotX += (targetRotX - currentRotX) * 0.02; 
                 currentRotY += (targetRotY - currentRotY) * 0.02;
 
+                // Add subtle "breathing" wave motion
+                const wave = Math.sin(time * 0.0005 + this.offset) * 20;
+                
+                // Rotation Math
                 const cosY = Math.cos(currentRotX);
                 const sinY = Math.sin(currentRotX);
                 const cosX = Math.cos(currentRotY);
                 const sinX = Math.sin(currentRotY);
 
-                // Rotate Y
-                let dx = this.x * cosY - this.z * sinY;
-                let dz = this.z * cosY + this.x * sinY;
-                this.x = dx; this.z = dz;
+                // Apply rotation to base coordinates + wave
+                let tx = this.baseX + wave;
+                let ty = this.baseY + wave;
+                let tz = this.baseZ;
 
-                // Rotate X
-                let dy = this.y * cosX - this.z * sinX;
-                dz = this.z * cosX + this.y * sinX;
-                this.y = dy; this.z = dz;
+                let dx = tx * cosY - tz * sinY;
+                let dz = tz * cosY + tx * sinY;
+                let dy = ty * cosX - dz * sinX;
+                dz = dz * cosX + ty * sinX;
+
+                this.x = dx; this.y = dy; this.z = dz;
             }
 
             draw() {
-                let fov = 800;
+                let fov = 600;
                 let scale = fov / (fov + this.z);
                 if (scale < 0) return;
 
                 let x2d = hWidth/2 + this.x * scale;
                 let y2d = hHeight/2 + this.y * scale;
 
-                const isLight = document.body.getAttribute('data-theme') === 'light';
+                hCtx.fillStyle = this.color;
                 
-                // Color Logic
-                if (isLight) {
-                    // In Light Mode: Stars are black/dark grey, Fog is deep blue
-                    if(this.isFog) hCtx.fillStyle = `rgba(0, 50, 100, ${this.baseAlpha * 0.3})`;
-                    else hCtx.fillStyle = `rgba(10, 10, 20, ${this.baseAlpha})`;
+                // In light mode, darken the particles
+                if(document.body.getAttribute('data-theme') === 'light') {
+                    hCtx.fillStyle = this.color === '#ffffff' ? '#000000' : this.color;
+                    hCtx.globalAlpha = 0.6;
                 } else {
-                    // In Dark Mode: Stars white, Fog is faint blue
-                    if(this.isFog) hCtx.fillStyle = `rgba(100, 150, 255, ${this.baseAlpha * 0.2})`;
-                    else hCtx.fillStyle = `rgba(255, 255, 255, ${this.baseAlpha})`;
+                    hCtx.globalAlpha = 1;
                 }
 
                 hCtx.beginPath();
                 hCtx.arc(x2d, y2d, this.size * scale, 0, Math.PI * 2);
                 hCtx.fill();
+                hCtx.globalAlpha = 1;
             }
         }
 
         function initHologram() {
             resizeHologram();
             particles = [];
-            // 400 Main Stars
-            for(let i=0; i<400; i++) particles.push(new Star(false));
-            // 600 Fog Particles
-            for(let i=0; i<600; i++) particles.push(new Star(true));
+            for(let i=0; i<800; i++) particles.push(new Star());
             animateHologram();
         }
 
         function animateHologram() {
+            time++;
             hCtx.clearRect(0,0, hWidth, hHeight);
-            
-            // Draw Supernova Glow (Center)
-            const isLight = document.body.getAttribute('data-theme') === 'light';
-            const grad = hCtx.createRadialGradient(hWidth/2, hHeight/2, 10, hWidth/2, hHeight/2, 500);
-            
-            if(isLight) {
-                grad.addColorStop(0, 'rgba(0, 0, 0, 0.1)'); // Dark center for light mode
-                grad.addColorStop(1, 'rgba(0,0,0,0)');
-            } else {
-                grad.addColorStop(0, 'rgba(41, 151, 255, 0.2)');
-                grad.addColorStop(1, 'rgba(0,0,0,0)');
-            }
-            
-            hCtx.fillStyle = grad;
-            hCtx.fillRect(0,0, hWidth, hHeight);
-
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animateHologram);
         }
         initHologram();
 
-
-        // --- 3D TILT CARDS (Projecting Shadows) ---
+        // --- SPRINGY "JELLO" CARD PHYSICS ---
         const cards = document.querySelectorAll('.bento-card');
+        
         cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Remove transition so it tracks instantly (no lag)
+                card.classList.add('moving');
+            });
+
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -498,13 +514,16 @@
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                // Tilt logic
-                const rotateX = ((y - centerY) / centerY) * -8;
-                const rotateY = ((x - centerX) / centerX) * 8;
+                // Tilt calculation
+                const rotateX = ((y - centerY) / centerY) * -12;
+                const rotateY = ((x - centerX) / centerX) * 12;
                 
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
             });
+
             card.addEventListener('mouseleave', () => {
+                // Re-enable transition for the smooth "bounce back"
+                card.classList.remove('moving');
                 card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
             });
         });
@@ -521,9 +540,11 @@
 
         function resizeGame() {
             const wrapper = document.getElementById('game-wrapper');
-            gCanvas.width = wrapper.clientWidth;
-            gCanvas.height = wrapper.clientHeight;
-            player.y = gCanvas.height - 50;
+            if(wrapper) {
+                gCanvas.width = wrapper.clientWidth;
+                gCanvas.height = wrapper.clientHeight;
+                player.y = gCanvas.height - 50;
+            }
         }
         window.addEventListener('resize', resizeGame);
 
@@ -580,7 +601,7 @@
                 if(e.y > gCanvas.height) {
                     gameRunning = false;
                     document.getElementById('game-ui').style.display = 'block';
-                    document.querySelector('#game-ui h2').innerText = "SCORE: " + score;
+                    document.querySelector('#game-ui h2').innerText = "BREACHED. SCORE: " + score;
                 }
             });
 
