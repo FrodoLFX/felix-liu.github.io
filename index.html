@@ -6,32 +6,33 @@
     <title>Felix Liu | Portfolio</title>
     <style>
         :root {
-            /* Dark Mode (Default) */
-            --bg-color: #020202;
-            --glass-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            /* DARK MODE (Default) */
+            --bg-color: #050505;
+            --card-bg: rgba(30, 30, 30, 0.6);
+            --card-border: rgba(255, 255, 255, 0.1);
             --text-primary: #f5f5f7;
-            --text-secondary: #a1a1a6;
+            --text-secondary: #86868b;
             --accent-blue: #2997ff;
-            --accent-glow: rgba(41, 151, 255, 0.6);
-            --nav-bg: rgba(10, 10, 10, 0.7);
+            --accent-glow: rgba(41, 151, 255, 0.4);
+            --nav-bg: rgba(20, 20, 20, 0.8);
             --btn-bg: #fff;
             --btn-text: #000;
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         [data-theme="light"] {
-            --bg-color: #f0f2f5;
-            --glass-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 100%);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            /* LIGHT MODE */
+            --bg-color: #f2f2f7;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(0, 0, 0, 0.05);
             --text-primary: #1d1d1f;
             --text-secondary: #515154;
             --accent-blue: #0071e3;
-            --accent-glow: rgba(0, 113, 227, 0.4);
-            --nav-bg: rgba(230, 230, 230, 0.7);
-            --btn-bg: #000;
+            --accent-glow: rgba(0, 113, 227, 0.2);
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --btn-bg: #1d1d1f;
             --btn-text: #fff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -41,60 +42,91 @@
             color: var(--text-primary);
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, sans-serif;
             overflow-x: hidden;
-            transition: background-color 0.8s ease, color 0.8s ease;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* --- UI CONTROLS --- */
+        /* --- THEME TOGGLE --- */
         #theme-toggle {
             position: fixed; top: 25px; right: 25px;
             z-index: 1001;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             color: var(--text-primary);
             padding: 10px 18px;
             border-radius: 20px;
             cursor: pointer;
-            backdrop-filter: blur(15px);
-            font-weight: 500;
-            transition: transform 0.2s, background 0.3s;
+            backdrop-filter: blur(20px);
+            font-weight: 600;
+            transition: transform 0.2s;
         }
-        #theme-toggle:hover { transform: scale(1.05); background: rgba(255,255,255,0.1); }
+        #theme-toggle:hover { transform: scale(1.05); }
 
         /* --- NAVIGATION --- */
         nav {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 500px; height: 60px;
             background: var(--nav-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 50px;
-            border: 1px solid var(--glass-border);
+            border: 1px solid var(--card-border);
             display: flex; justify-content: space-around; align-items: center;
             padding: 0 10px; z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
+            transition: background 0.5s;
         }
 
         .nav-item {
             color: var(--text-secondary);
             font-size: 0.9rem; font-weight: 500; cursor: pointer;
             padding: 8px 18px; border-radius: 30px;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
         }
         .nav-item:hover { color: var(--text-primary); }
         .nav-item.active { 
             color: #fff; 
             background: var(--accent-blue); 
-            box-shadow: 0 0 20px var(--accent-glow); 
+            box-shadow: 0 0 15px var(--accent-glow); 
         }
 
-        /* --- HERO --- */
-        #hero-wrapper {
-            position: relative; height: 100vh; width: 100%;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            perspective: 1000px;
-            overflow: hidden;
+        /* --- LAYOUT STRUCTURE (Fixes rendering bug) --- */
+        main {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            padding-top: 80px; /* Space for nav */
         }
+
+        .section-container {
+            display: none; /* Default hidden */
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px 100px 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .section-container.active {
+            display: block;
+            opacity: 1;
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* --- HERO (Special Case) --- */
+        #hero-section {
+            display: none;
+            position: relative; 
+            height: 90vh; /* Full viewport height minus a bit */
+            width: 100%;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            overflow: hidden;
+            margin-top: -80px; /* Counteract main padding for full screen look */
+        }
+        
+        #hero-section.active { display: flex; opacity: 1; }
 
         canvas#hologram-canvas {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -103,20 +135,14 @@
 
         .hero-content {
             z-index: 2; text-align: center; pointer-events: none;
-            /* Subtle glass backing for text readability if stars get bright */
-            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
         }
 
         h1 {
-            font-size: 5.5rem; font-weight: 800; letter-spacing: -0.03em;
-            background: linear-gradient(135deg, #fff 20%, rgba(255,255,255,0.4) 100%);
+            font-size: 5rem; font-weight: 800; letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary) 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
-        }
-        
-        [data-theme="light"] h1 {
-            background: linear-gradient(135deg, #000 20%, rgba(0,0,0,0.5) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
         .github-btn {
@@ -126,79 +152,66 @@
             padding: 14px 35px;
             background: var(--btn-bg); color: var(--btn-text);
             text-decoration: none; font-weight: 600; border-radius: 30px;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
         .github-btn:hover {
-            transform: scale(1.1) translateY(-2px);
+            transform: scale(1.05);
             box-shadow: 0 0 30px var(--accent-glow);
         }
 
-        /* --- LIQUID GLASS CARDS --- */
-        .container {
-            max-width: 1100px; margin: 0 auto; padding: 100px 20px;
-            display: none; opacity: 0; transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .container.visible { display: block; opacity: 1; transform: translateY(0); }
-
+        /* --- BENTO GRID CARDS --- */
         .bento-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 30px; margin-top: 50px; perspective: 1500px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px; margin-top: 20px; perspective: 1000px;
         }
 
         .bento-card {
-            /* Liquid Glass Effect */
-            background: var(--glass-bg);
-            box-shadow: var(--glass-shadow);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            
-            border-radius: 32px; padding: 35px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 28px; padding: 35px;
+            box-shadow: var(--shadow);
             transform-style: preserve-3d;
             will-change: transform;
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.3s;
-        }
-
-        /* Glossy reflection line */
-        .bento-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, transparent 100%);
-            pointer-events: none; border-radius: 32px 32px 0 0;
+            transition: box-shadow 0.3s;
         }
         
-        .bento-card h3 { font-size: 1.6rem; margin-bottom: 8px; color: var(--text-primary); letter-spacing: -0.01em;}
-        .bento-card h4 { font-size: 1rem; color: var(--accent-blue); margin-bottom: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-        .bento-card p, .bento-card ul { color: var(--text-secondary); line-height: 1.7; font-size: 1rem; }
-        .bento-card ul { padding-left: 20px; margin-top: 15px; }
-        .bento-card li { margin-bottom: 10px; }
+        .bento-card h3 { font-size: 1.5rem; margin-bottom: 5px; color: var(--text-primary); }
+        .bento-card h4 { font-size: 0.95rem; color: var(--accent-blue); margin-bottom: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .bento-card p, .bento-card ul { color: var(--text-secondary); line-height: 1.6; font-size: 1rem; }
+        .bento-card ul { padding-left: 20px; margin-top: 10px; }
+        .bento-card li { margin-bottom: 8px; }
         .bento-wide { grid-column: 1 / -1; }
 
-        /* --- GAME SECTION --- */
+        /* --- GAME UI --- */
         #game-wrapper {
             position: relative; width: 100%; height: 500px;
-            background: #050505; border-radius: 32px;
-            border: 1px solid var(--accent-blue); overflow: hidden;
+            background: #000; border-radius: 28px;
+            border: 2px solid var(--accent-blue); overflow: hidden;
             display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 0 50px rgba(41, 151, 255, 0.15);
+            box-shadow: 0 0 40px var(--accent-glow);
         }
         canvas#game-canvas { display: block; background: #000; cursor: crosshair; }
         #game-ui {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            text-align: center; background: rgba(5, 5, 5, 0.9); padding: 50px; border-radius: 30px;
-            backdrop-filter: blur(20px); border: 1px solid var(--accent-blue); color: #fff;
-            width: 80%; max-width: 400px;
+            text-align: center; background: rgba(0,0,0,0.85); padding: 40px; border-radius: 20px;
+            backdrop-filter: blur(10px); border: 1px solid var(--accent-blue); color: #fff;
+            z-index: 10;
         }
         button.play-btn {
             background: var(--accent-blue); color: white; border: none;
-            padding: 15px 40px; font-size: 1.1rem; border-radius: 40px;
-            cursor: pointer; font-weight: 600; margin-top: 25px;
-            transition: all 0.3s;
+            padding: 12px 30px; font-size: 1.1rem; border-radius: 30px;
+            cursor: pointer; font-weight: 600; margin-top: 20px;
+            transition: transform 0.2s;
         }
-        button.play-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px var(--accent-glow); }
+        button.play-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--accent-glow); }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
     </style>
 </head>
@@ -207,141 +220,137 @@
     <button id="theme-toggle" onclick="toggleTheme()">Light Mode</button>
 
     <nav>
-        <div class="nav-item active" onclick="showSection('home')">Home</div>
-        <div class="nav-item" onclick="showSection('work')">Work</div>
-        <div class="nav-item" onclick="showSection('projects')">Projects</div>
-        <div class="nav-item" onclick="showSection('game')">Game</div>
+        <div class="nav-item active" onclick="switchTab('home')">Home</div>
+        <div class="nav-item" onclick="switchTab('work')">Work</div>
+        <div class="nav-item" onclick="switchTab('projects')">Projects</div>
+        <div class="nav-item" onclick="switchTab('game')">Game</div>
     </nav>
 
-    <section id="home" class="visible">
-        <div id="hero-wrapper">
+    <main>
+        <section id="hero-section" class="active">
             <canvas id="hologram-canvas"></canvas>
             <div class="hero-content">
                 <h1>Fangxin (Felix) Liu</h1>
-                <p style="font-size: 1.6rem; color: var(--text-secondary); margin-bottom: 10px;">
-                    System Integration & Firmware Engineer
-                </p>
+                <p style="font-size: 1.5rem; color: var(--text-secondary);">System Integration & Firmware Engineer</p>
                 <a href="https://github.com/FrodoLFX" target="_blank" class="github-btn">
                     Visit GitHub Profile
                 </a>
             </div>
-        </div>
-
-        <div class="container visible">
-             <div class="bento-grid">
-                <div class="bento-card bento-wide">
-                    <h3>About Me</h3>
-                    <p>
-                        I am a Computer & Systems Engineering student at <strong>Rensselaer Polytechnic Institute</strong>. 
-                        My passion lies in the intersection of hardware and software—specifically in firmware, FPGA development, and system integration. 
-                        From testing microsecond-level safety fuses at <strong>Tesla</strong> to maintaining mainframes for New York State, I build robust, critical systems.
+            <div class="bento-grid" style="width: 100%; max-width: 900px; margin-top: 60px; z-index: 2;">
+                <div class="bento-card bento-wide" style="background: rgba(15,15,15,0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05);">
+                    <h3 style="text-align: center; font-size: 1.2rem; color: #aaa;">About Me</h3>
+                    <p style="text-align: center; margin-top: 10px;">
+                        RPI Class of 2026. Specializing in embedded systems, FPGA, and high-performance computing. 
+                        Bridging the gap between hardware and software.
                     </p>
                 </div>
-                <div class="bento-card">
-                    <h3>Education</h3>
-                    <h4>Rensselaer Polytechnic Institute</h4>
-                    <p>Dec 2026 | Troy, NY</p>
-                    <p><strong>B.S. Computer & Systems Engineering</strong></p>
-                    <p style="margin-top:10px; font-size:0.9rem;">Coursework: Advanced Hardware Design, Embedded Control, Computer Architecture, Operating Systems.</p>
+            </div>
+        </section>
+
+        <div id="work" class="section-container">
+            <h2 style="text-align:center; font-size:3rem; margin-bottom:40px;">Experience</h2>
+            <div class="bento-grid">
+                <div class="bento-card bento-wide">
+                    <h3>Tesla</h3>
+                    <h4>System Integration Engineer Intern | Jun 2024 - Sep 2024</h4>
+                    <ul>
+                        <li>Executed 55+ system integration tests and 80+ microsecond-level e-fuse safety tests on Model Y.</li>
+                        <li>Designed protections increasing safety rate by 50% in harsh environments.</li>
+                        <li>Validated 358 subsystem parts configurations for low-voltage electronics.</li>
+                        <li>Gathered 5000+ data sets for thermal modeling.</li>
+                    </ul>
                 </div>
                 <div class="bento-card">
-                    <h3>Contact</h3>
-                    <p><strong>Email:</strong> liuf8@rpi.edu</p>
-                    <p><strong>Phone:</strong> +1 (347) 404-2110</p>
-                    <p><strong>Loc:</strong> Troy, NY / New York, NY</p>
+                    <h3>Tesla</h3>
+                    <h4>Low Voltage Systems TPM Intern | Jan 2024 - May 2024</h4>
+                    <ul>
+                        <li>Led construction of 7 infotainment bucks for e-call validation.</li>
+                        <li>Managed Solar Chamber project, improving sensor accuracy by 30%.</li>
+                    </ul>
+                </div>
+                <div class="bento-card">
+                    <h3>NYS Office of IT Services</h3>
+                    <h4>Mainframe Development Intern | Feb 2023 - Dec 2023</h4>
+                    <ul>
+                        <li>Maintained 24/7 Mainframe System serving New York State.</li>
+                        <li>Remediated 200+ deprecated system routines.</li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </section>
 
-    <div id="work" class="container">
-        <h2 style="text-align:center; font-size:3rem; margin-bottom:40px;">Professional Experience</h2>
-        <div class="bento-grid">
-            <div class="bento-card bento-wide">
-                <h3>Tesla</h3>
-                <h4>System Integration Engineer Intern | Jun 2024 - Sep 2024</h4>
-                <ul>
-                    <li>Executed 55+ system integration tests and 80+ microsecond-level e-fuse safety tests on Model Y.</li>
-                    <li>Designed and implemented protection measures for electronic components, increasing safety rate by 50% in harsh environments.</li>
-                    <li>Led development of low-voltage electronics bucks, validating 358 subsystem parts configurations.</li>
-                    <li>Performed thermal tests for 60% of controllers, gathering 5000+ data sets for modeling.</li>
-                </ul>
-            </div>
-            <div class="bento-card">
-                <h3>Tesla</h3>
-                <h4>Low Voltage Systems TPM Intern | Jan 2024 - May 2024</h4>
-                <ul>
-                    <li>Led construction of 7 infotainment bucks for e-call validation.</li>
-                    <li>Managed Solar Chamber project, improving solar sensor accuracy by 30%.</li>
-                    <li>Managed WEBOM system tracking 2000+ components.</li>
-                </ul>
-            </div>
-            <div class="bento-card">
-                <h3>NYS Office of IT Services</h3>
-                <h4>Mainframe Development Intern | Feb 2023 - Dec 2023</h4>
-                <ul>
-                    <li>Maintained 24/7 Mainframe System serving all of New York State.</li>
-                    <li>Led team to remediate 200+ deprecated system routines.</li>
-                </ul>
+        <div id="projects" class="section-container">
+            <h2 style="text-align:center; font-size:3rem; margin-bottom:40px;">Projects & Research</h2>
+            <div class="bento-grid">
+                <div class="bento-card bento-wide">
+                    <h3>RPI ECSE Department</h3>
+                    <h4>Research Assistant | Sep 2025 - Current</h4>
+                    <ul>
+                        <li>Researching GPU customized operation using C++ with CUDA and CUTLASS.</li>
+                        <li>Accelerated Computation using Python with PyTorch.</li>
+                    </ul>
+                </div>
+                <div class="bento-card">
+                    <h3>FPGA Processor</h3>
+                    <h4>System Verilog</h4>
+                    <p>Designed a 5-stage Pipeline RISC-V Processor supporting assembly programs.</p>
+                </div>
+                <div class="bento-card">
+                    <h3>Robotic Car</h3>
+                    <h4>Embedded C / TI MSP432</h4>
+                    <p>Built a robotic car with autonomous navigation logic and motion sensing joystick.</p>
+                </div>
+                <div class="bento-card">
+                    <h3>IBM z/OS Open Source</h3>
+                    <h4>Mainframe Utility</h4>
+                    <p>Contributed to z/OS open-source development modernizing mainframe utilities.</p>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="projects" class="container">
-        <h2 style="text-align:center; font-size:3rem; margin-bottom:40px;">Research & Personal Projects</h2>
-        <div class="bento-grid">
-            
-            <div class="bento-card bento-wide">
-                <h3>Research Assistant</h3>
-                <h4>RPI ECSE Department | Sep 2025 - Current</h4>
-                <ul>
-                    <li>Conducting research on GPU customized operation using C++ with CUDA and CUTLASS.</li>
-                    <li>Researching Accelerated Computation using Python with PyTorch.</li>
-                </ul>
-            </div>
-
-            <div class="bento-card">
-                <h3>Ultrasonic Robotic Car</h3>
-                <h4>Embedded Systems Project</h4>
-                <p>Built a robotic car based on <strong>TI MSP-EXP432 "Launch Pad"</strong> and TI RSLK Embedded System.</p>
-                <ul>
-                    <li>Programmed motion sensing joystick based on Arduino-Leonardo.</li>
-                    <li>Implemented autonomous navigation logic.</li>
-                </ul>
-            </div>
-
-            <div class="bento-card">
-                <h3>FPGA Development</h3>
-                <h4>Hardware Design</h4>
-                <p>Comprehensive FPGA design using Verilog/VHDL.</p>
-                <ul>
-                    <li>Developed Display Module, Comparator, Encoder, Decoder, and Full-Adder.</li>
-                    <li>Designed a <strong>5-stage Pipeline RISC-V Processor</strong> supporting assembly programs.</li>
-                </ul>
-            </div>
-
-            <div class="bento-card">
-                <h3>IBM z/OS Open Source</h3>
-                <h4>Rensselaer Center for Open Source</h4>
-                <p>Contributed to z/OS open-source development in collaboration with IBM.</p>
-                <p>Focus on modernizing mainframe utilities.</p>
+        <div id="game" class="section-container">
+            <h2 style="text-align:center; margin-bottom:20px;">Packet Defender</h2>
+            <div id="game-wrapper">
+                <div id="game-ui">
+                    <h2>System Security Breach</h2>
+                    <p style="margin: 20px 0; color: #ccc;">Click to Shoot. Move Mouse to Aim.</p>
+                    <button class="play-btn" onclick="initGame()">START DEFENSE</button>
+                </div>
+                <canvas id="game-canvas"></canvas>
             </div>
         </div>
-    </div>
-
-    <div id="game" class="container">
-        <h2 style="text-align:center; margin-bottom:20px;">Packet Defender</h2>
-        <div id="game-wrapper">
-            <div id="game-ui">
-                <h2>System Security Breach</h2>
-                <p style="margin: 20px 0; color: #ccc;">Click to Shoot. Move Mouse to Aim.</p>
-                <button class="play-btn" onclick="initGame()">START DEFENSE</button>
-            </div>
-            <canvas id="game-canvas"></canvas>
-        </div>
-    </div>
+    </main>
 
     <script>
+        // --- TAB SWITCHING (FIXED LAYOUT BUG) ---
+        function switchTab(id) {
+            window.scrollTo(0,0); // Force scroll reset to prevent empty space
+            
+            // 1. Update Nav
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const activeBtn = Array.from(document.querySelectorAll('.nav-item'))
+                                   .find(el => el.getAttribute('onclick').includes(id));
+            if(activeBtn) activeBtn.classList.add('active');
+
+            // 2. Hide Everything First
+            document.getElementById('hero-section').classList.remove('active');
+            document.querySelectorAll('.section-container').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // 3. Show Target
+            if (id === 'home') {
+                document.getElementById('hero-section').classList.add('active');
+            } else {
+                const target = document.getElementById(id);
+                target.classList.add('active');
+            }
+
+            // 4. Handle Game State
+            if(id === 'game') resizeGame();
+            else gameRunning = false;
+        }
+
         // --- THEME TOGGLE ---
         function toggleTheme() {
             const body = document.body;
@@ -355,38 +364,13 @@
             }
         }
 
-        // --- SECTION SWITCHING ---
-        function showSection(id) {
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            const activeBtn = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick').includes(id));
-            if(activeBtn) activeBtn.classList.add('active');
-
-            if (id === 'home') {
-                document.getElementById('home').style.display = 'block';
-                document.querySelectorAll('.container').forEach(el => {
-                    if (el.parentElement.id !== 'home') el.classList.remove('visible');
-                });
-                setTimeout(() => document.querySelector('#home .container').classList.add('visible'), 50);
-            } else {
-                document.getElementById('home').style.display = 'none';
-                document.querySelectorAll('body > .container').forEach(el => el.classList.remove('visible'));
-                const target = document.getElementById(id);
-                target.style.display = 'block';
-                void target.offsetWidth; 
-                target.classList.add('visible');
-            }
-            
-            if(id === 'game') resizeGame();
-            else gameRunning = false;
-        }
-
-        // --- 3D SUPERNOVA UNIVERSE ---
+        // --- IMPROVED HOLOGRAM (Slow + Fog + Light Mode) ---
         const hCanvas = document.getElementById('hologram-canvas');
         const hCtx = hCanvas.getContext('2d');
         let hWidth, hHeight;
-        let stars = [];
+        let particles = [];
         
-        // Physics for smooth movement
+        // Physics variables
         let targetRotX = 0, targetRotY = 0;
         let currentRotX = 0, currentRotY = 0;
 
@@ -395,36 +379,39 @@
             hHeight = hCanvas.height = window.innerHeight;
         }
         window.addEventListener('resize', resizeHologram);
-        
-        // MUCH Lower Sensitivity & Damping
+
+        // MOUSE MOVE: Extremely Low Sensitivity
         window.addEventListener('mousemove', e => {
-            targetRotX = (e.clientX - hWidth/2) * 0.0003; // Slowed down factor
-            targetRotY = (e.clientY - hHeight/2) * 0.0003;
+            // Mapping mouse position to a small rotation angle
+            // Factor 0.00005 is VERY slow
+            targetRotX = (e.clientX - hWidth/2) * 0.00005; 
+            targetRotY = (e.clientY - hHeight/2) * 0.00005;
         });
 
         class Star {
-            constructor() {
-                // Spherical distribution
+            constructor(isFog) {
+                this.isFog = isFog;
+                const r = isFog ? (Math.random() * 800 + 200) : (Math.random() * 800 + 400); // Radius
                 const theta = Math.random() * 2 * Math.PI;
                 const phi = Math.acos((Math.random() * 2) - 1);
-                const r = 500 + Math.random() * 1000; // Radius
 
                 this.x = r * Math.sin(phi) * Math.cos(theta);
                 this.y = r * Math.sin(phi) * Math.sin(theta);
                 this.z = r * Math.cos(phi);
                 
-                this.baseSize = Math.random() * 1.5 + 0.5;
-                // Random variation for "dust" vs "star"
-                this.opacity = Math.random();
+                this.size = isFog ? Math.random() * 1.5 : Math.random() * 2.5 + 1;
+                this.baseAlpha = Math.random();
             }
-            
-            update() {
-                // Linear Interpolation (Lerp) for smoothness
-                currentRotX += (targetRotX - currentRotX) * 0.05; // 0.05 is the easing factor
-                currentRotY += (targetRotY - currentRotY) * 0.05;
 
-                const cosX = Math.cos(currentRotY); const sinX = Math.sin(currentRotY);
-                const cosY = Math.cos(currentRotX); const sinY = Math.sin(currentRotX);
+            update() {
+                // Smooth Lerp (Linear Interpolation) for lazy movement
+                currentRotX += (targetRotX - currentRotX) * 0.02; 
+                currentRotY += (targetRotY - currentRotY) * 0.02;
+
+                const cosY = Math.cos(currentRotX);
+                const sinY = Math.sin(currentRotX);
+                const cosX = Math.cos(currentRotY);
+                const sinX = Math.sin(currentRotY);
 
                 // Rotate Y
                 let dx = this.x * cosY - this.z * sinY;
@@ -445,89 +432,91 @@
                 let x2d = hWidth/2 + this.x * scale;
                 let y2d = hHeight/2 + this.y * scale;
 
-                // Twinkle effect
-                let alpha = this.opacity * (0.5 + Math.sin(Date.now() * 0.002 + this.x) * 0.5);
+                const isLight = document.body.getAttribute('data-theme') === 'light';
                 
-                // Color based on theme
-                const isDark = document.body.getAttribute('data-theme') === 'dark';
-                hCtx.fillStyle = isDark ? `rgba(255, 255, 255, ${alpha})` : `rgba(0, 0, 0, ${alpha})`;
+                // Color Logic
+                if (isLight) {
+                    // In Light Mode: Stars are black/dark grey, Fog is deep blue
+                    if(this.isFog) hCtx.fillStyle = `rgba(0, 50, 100, ${this.baseAlpha * 0.3})`;
+                    else hCtx.fillStyle = `rgba(10, 10, 20, ${this.baseAlpha})`;
+                } else {
+                    // In Dark Mode: Stars white, Fog is faint blue
+                    if(this.isFog) hCtx.fillStyle = `rgba(100, 150, 255, ${this.baseAlpha * 0.2})`;
+                    else hCtx.fillStyle = `rgba(255, 255, 255, ${this.baseAlpha})`;
+                }
 
                 hCtx.beginPath();
-                hCtx.arc(x2d, y2d, this.baseSize * scale, 0, Math.PI * 2);
+                hCtx.arc(x2d, y2d, this.size * scale, 0, Math.PI * 2);
                 hCtx.fill();
             }
         }
 
         function initHologram() {
             resizeHologram();
-            stars = [];
-            // More particles for "stardust" effect
-            for(let i=0; i<800; i++) stars.push(new Star());
+            particles = [];
+            // 400 Main Stars
+            for(let i=0; i<400; i++) particles.push(new Star(false));
+            // 600 Fog Particles
+            for(let i=0; i<600; i++) particles.push(new Star(true));
             animateHologram();
         }
 
         function animateHologram() {
             hCtx.clearRect(0,0, hWidth, hHeight);
             
-            // Draw Supernova Center
-            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            // Draw Supernova Glow (Center)
+            const isLight = document.body.getAttribute('data-theme') === 'light';
+            const grad = hCtx.createRadialGradient(hWidth/2, hHeight/2, 10, hWidth/2, hHeight/2, 500);
             
-            // Central Glow (Supernova)
-            const grad = hCtx.createRadialGradient(hWidth/2, hHeight/2, 10, hWidth/2, hHeight/2, 400);
-            if(isDark) {
-                grad.addColorStop(0, 'rgba(41, 151, 255, 0.4)');
-                grad.addColorStop(0.5, 'rgba(41, 151, 255, 0.05)');
+            if(isLight) {
+                grad.addColorStop(0, 'rgba(0, 0, 0, 0.1)'); // Dark center for light mode
                 grad.addColorStop(1, 'rgba(0,0,0,0)');
             } else {
-                grad.addColorStop(0, 'rgba(0, 113, 227, 0.3)');
-                grad.addColorStop(0.5, 'rgba(0, 113, 227, 0.05)');
-                grad.addColorStop(1, 'rgba(255,255,255,0)');
+                grad.addColorStop(0, 'rgba(41, 151, 255, 0.2)');
+                grad.addColorStop(1, 'rgba(0,0,0,0)');
             }
+            
             hCtx.fillStyle = grad;
             hCtx.fillRect(0,0, hWidth, hHeight);
 
-            stars.forEach(star => {
-                star.update();
-                star.draw();
+            particles.forEach(p => {
+                p.update();
+                p.draw();
             });
             requestAnimationFrame(animateHologram);
         }
         initHologram();
 
-        // --- JELLO / LIQUID GLASS MOVEMENT ---
+
+        // --- 3D TILT CARDS (Projecting Shadows) ---
         const cards = document.querySelectorAll('.bento-card');
-        
         cards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                const rotateX = ((y - centerY) / centerY) * -5; // Subtle tilt
-                const rotateY = ((x - centerX) / centerX) * 5;
+                // Tilt logic
+                const rotateX = ((y - centerY) / centerY) * -8;
+                const rotateY = ((x - centerX) / centerX) * 8;
                 
-                // Add a sheen effect
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
             });
-
             card.addEventListener('mouseleave', () => {
                 card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
             });
         });
 
-        // --- GAME LOGIC (Packet Defender) ---
+        // --- GAME LOGIC ---
         const gCanvas = document.getElementById('game-canvas');
         const gCtx = gCanvas.getContext('2d');
         let gameRunning = false;
         let player = { x: 0, y: 0, s: 30 };
         let projectiles = [];
         let enemies = [];
-        let particles = [];
         let score = 0;
-        let spawnRate = 60;
         let frame = 0;
 
         function resizeGame() {
@@ -536,6 +525,7 @@
             gCanvas.height = wrapper.clientHeight;
             player.y = gCanvas.height - 50;
         }
+        window.addEventListener('resize', resizeGame);
 
         gCanvas.addEventListener('mousemove', e => {
             const rect = gCanvas.getBoundingClientRect();
@@ -543,42 +533,25 @@
         });
 
         gCanvas.addEventListener('mousedown', () => {
-            if(gameRunning) {
-                projectiles.push({x: player.x + player.s/2, y: player.y, r: 4});
-            }
+            if(gameRunning) projectiles.push({x: player.x + player.s/2, y: player.y, r: 4});
         });
 
         function initGame() {
             document.getElementById('game-ui').style.display = 'none';
             resizeGame();
-            projectiles = []; enemies = []; particles = [];
-            score = 0; frame = 0; spawnRate = 60;
+            projectiles = []; enemies = []; score = 0; frame = 0;
             gameRunning = true;
             gameLoop();
-        }
-
-        function createExplosion(x, y, color) {
-            for(let i=0; i<12; i++) {
-                particles.push({
-                    x: x, y: y,
-                    vx: (Math.random() - 0.5) * 8,
-                    vy: (Math.random() - 0.5) * 8,
-                    life: 40, color: color
-                });
-            }
         }
 
         function gameLoop() {
             if(!gameRunning) return;
             frame++;
-
             gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
 
             // Player
             gCtx.fillStyle = '#2997ff';
-            gCtx.shadowBlur = 20; gCtx.shadowColor = '#2997ff';
             gCtx.fillRect(player.x, player.y, player.s, player.s);
-            gCtx.shadowBlur = 0;
 
             // Projectiles
             gCtx.fillStyle = '#fff';
@@ -589,27 +562,17 @@
             });
 
             // Enemies
-            if(frame % spawnRate === 0) {
-                enemies.push({
-                    x: Math.random() * (gCanvas.width - 30),
-                    y: -30, w: 30, h: 30, speed: Math.random() * 2 + 1.5
-                });
-                if(spawnRate > 15) spawnRate -= 0.1;
-            }
-
+            if(frame % 50 === 0) enemies.push({x: Math.random()*(gCanvas.width-30), y: -30});
+            
             enemies.forEach((e, i) => {
-                e.y += e.speed;
+                e.y += 2;
                 gCtx.fillStyle = '#ff3b30';
-                gCtx.shadowBlur = 10; gCtx.shadowColor = '#ff3b30';
-                gCtx.fillRect(e.x, e.y, e.w, e.h);
-                gCtx.shadowBlur = 0;
-
-                // Collision with Projectile
+                gCtx.fillRect(e.x, e.y, 30, 30);
+                
+                // Collision
                 projectiles.forEach((p, pi) => {
-                    if(p.x > e.x && p.x < e.x + e.w && p.y > e.y && p.y < e.y + e.h) {
-                        createExplosion(e.x + e.w/2, e.y + e.h/2, '#ff3b30');
-                        enemies.splice(i, 1);
-                        projectiles.splice(pi, 1);
+                    if(p.x > e.x && p.x < e.x + 30 && p.y > e.y && p.y < e.y + 30) {
+                        enemies.splice(i, 1); projectiles.splice(pi, 1);
                         score += 10;
                     }
                 });
@@ -617,28 +580,15 @@
                 if(e.y > gCanvas.height) {
                     gameRunning = false;
                     document.getElementById('game-ui').style.display = 'block';
-                    document.querySelector('#game-ui h2').innerText = "BREACH DETECTED. SCORE: " + score;
+                    document.querySelector('#game-ui h2').innerText = "SCORE: " + score;
                 }
             });
 
-            // Particles
-            particles.forEach((p, i) => {
-                p.x += p.vx; p.y += p.vy; p.life--;
-                gCtx.fillStyle = p.color;
-                gCtx.globalAlpha = p.life / 40;
-                gCtx.fillRect(p.x, p.y, 3, 3);
-                gCtx.globalAlpha = 1;
-                if(p.life <= 0) particles.splice(i, 1);
-            });
-
-            // Score
             gCtx.fillStyle = '#fff';
-            gCtx.font = "bold 20px sans-serif";
-            gCtx.fillText("SCORE: " + score, 20, 40);
-
+            gCtx.font = "20px Arial";
+            gCtx.fillText("Score: " + score, 20, 30);
             requestAnimationFrame(gameLoop);
         }
-
     </script>
 </body>
 </html>
