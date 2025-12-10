@@ -6,18 +6,30 @@
     <title>Felix Liu | Portfolio</title>
     <style>
         :root {
-            /* Apple-esque Dark Mode Palette */
-            --bg-color: #000000;
-            --card-bg: rgba(28, 28, 30, 0.65);
+            /* Dark Mode (Default) */
+            --bg-color: #050505;
+            --card-bg: rgba(28, 28, 30, 0.6);
             --card-border: rgba(255, 255, 255, 0.1);
             --text-primary: #f5f5f7;
             --text-secondary: #86868b;
             --accent-blue: #2997ff;
             --accent-glow: rgba(41, 151, 255, 0.4);
-            --nav-bg: rgba(0, 0, 0, 0.8);
-            --blur: blur(20px);
-            --radius: 24px;
-            --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, sans-serif;
+            --nav-bg: rgba(20, 20, 20, 0.8);
+            --btn-bg: #fff;
+            --btn-text: #000;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f2f2f7;
+            --card-bg: rgba(255, 255, 255, 0.65);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-blue: #0071e3;
+            --accent-glow: rgba(0, 113, 227, 0.3);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --btn-bg: #000;
+            --btn-text: #fff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,143 +37,137 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-primary);
-            font-family: var(--font-stack);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, sans-serif;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* --- FLUID NAVIGATION --- */
+        /* --- UI CONTROLS --- */
+        #theme-toggle {
+            position: fixed; top: 25px; right: 25px;
+            z-index: 1001;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        #theme-toggle:hover { transform: scale(1.05); }
+
+        /* --- NAVIGATION --- */
         nav {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 600px;
-            height: 60px;
+            width: 90%; max-width: 500px; height: 60px;
             background: var(--nav-bg);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 50px;
             border: 1px solid var(--card-border);
             display: flex; justify-content: space-around; align-items: center;
             padding: 0 10px; z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .nav-item {
-            position: relative;
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            padding: 10px 20px;
-            border-radius: 30px;
-            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            font-size: 0.9rem; font-weight: 500; cursor: pointer;
+            padding: 8px 16px; border-radius: 30px;
+            transition: all 0.3s;
         }
-
-        .nav-item:hover { color: var(--text-primary); background: rgba(255,255,255,0.1); }
+        .nav-item:hover { color: var(--text-primary); background: rgba(125,125,125,0.1); }
         .nav-item.active { color: #fff; background: var(--accent-blue); box-shadow: 0 0 15px var(--accent-glow); }
 
-        /* --- HERO & PARTICLES --- */
+        /* --- HERO --- */
         #hero-wrapper {
-            position: relative;
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            position: relative; height: 100vh; width: 100%;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            perspective: 1000px;
         }
 
-        canvas#particle-canvas {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 0;
+        canvas#hologram-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.8;
         }
 
         .hero-content {
             z-index: 2; text-align: center; pointer-events: none;
-            animation: fadeUp 1s ease-out;
+            mix-blend-mode: exclusion; /* Cool effect over the stars */
         }
+        
+        [data-theme="light"] .hero-content { mix-blend-mode: normal; }
 
         h1 {
-            font-size: 5rem; font-weight: 700; letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-size: 5rem; font-weight: 800; letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
         }
 
-        p.hero-subtitle {
-            font-size: 1.5rem; color: var(--text-secondary); font-weight: 400;
+        .github-btn {
+            pointer-events: auto;
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: var(--btn-bg); color: var(--btn-text);
+            text-decoration: none; font-weight: 600; border-radius: 30px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .github-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
-        .scroll-hint {
-            position: absolute; bottom: 40px;
-            color: var(--text-secondary); font-size: 0.9rem;
-            animation: bounce 2s infinite; opacity: 0.7;
-        }
-
-        /* --- CONTENT SECTIONS --- */
+        /* --- BENTO GRID & JELLO CARDS --- */
         .container {
-            max-width: 1000px; margin: 0 auto; padding: 100px 20px;
+            max-width: 1100px; margin: 0 auto; padding: 100px 20px;
             display: none; opacity: 0; transform: translateY(20px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
         .container.visible { display: block; opacity: 1; transform: translateY(0); }
 
-        /* Apple "Bento" Grid Layout */
         .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px; margin-top: 40px; perspective: 1000px; /* Essential for 3D */
         }
 
         .bento-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            backdrop-filter: blur(10px);
-            border-radius: var(--radius);
-            padding: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px; padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            /* The transition is handled by JS for the 'jello' feel, but we need base state */
+            transform-style: preserve-3d;
+            will-change: transform;
+            cursor: default;
         }
-
-        .bento-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            border-color: rgba(255,255,255,0.2);
-        }
-
-        .bento-card h3 { font-size: 1.4rem; margin-bottom: 5px; color: #fff; }
+        
+        .bento-card h3 { font-size: 1.5rem; margin-bottom: 5px; color: var(--text-primary); }
         .bento-card h4 { font-size: 1rem; color: var(--accent-blue); margin-bottom: 15px; font-weight: 600; }
-        .bento-card p { font-size: 0.95rem; line-height: 1.6; color: #d1d1d6; margin-bottom: 10px; }
-        .bento-card ul { padding-left: 20px; color: #d1d1d6; font-size: 0.9rem; line-height: 1.5; }
+        .bento-card p, .bento-card ul { color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; }
+        .bento-card ul { padding-left: 20px; margin-top: 10px; }
         .bento-card li { margin-bottom: 8px; }
-
         .bento-wide { grid-column: 1 / -1; }
-
-        /* Skills Tags */
-        .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
-        .tag {
-            background: rgba(41, 151, 255, 0.15); color: #5ac8fa;
-            padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
-            border: 1px solid rgba(41, 151, 255, 0.2);
-        }
 
         /* --- GAME SECTION --- */
         #game-wrapper {
             position: relative; width: 100%; height: 500px;
-            background: #111; border-radius: var(--radius);
-            border: 2px solid var(--card-border); overflow: hidden;
+            background: #000; border-radius: 28px;
+            border: 2px solid var(--accent-blue); overflow: hidden;
             display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 0 30px var(--accent-glow);
         }
-        canvas#game-canvas { display: block; background: #000; cursor: none; }
+        canvas#game-canvas { display: block; background: #000; cursor: crosshair; }
         #game-ui {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            text-align: center; background: rgba(0,0,0,0.8); padding: 40px; border-radius: 20px;
-            backdrop-filter: blur(10px); border: 1px solid var(--card-border);
+            text-align: center; background: rgba(0,0,0,0.85); padding: 40px; border-radius: 20px;
+            backdrop-filter: blur(10px); border: 1px solid var(--accent-blue); color: #fff;
         }
         button.play-btn {
             background: var(--accent-blue); color: white; border: none;
@@ -171,412 +177,416 @@
         }
         button.play-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--accent-glow); }
 
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
-
-        /* Introduction Section (Below Fold) */
-        #intro-text {
-            text-align: center; max-width: 700px; margin: 0 auto 60px auto;
-        }
-        #intro-text h2 { font-size: 2.5rem; margin-bottom: 20px; }
-        #intro-text p { font-size: 1.1rem; color: var(--text-secondary); }
-
     </style>
 </head>
-<body>
+<body data-theme="dark">
+
+    <button id="theme-toggle" onclick="toggleTheme()">Light Mode</button>
 
     <nav>
         <div class="nav-item active" onclick="showSection('home')">Home</div>
         <div class="nav-item" onclick="showSection('work')">Work</div>
-        <div class="nav-item" onclick="showSection('projects')">Research</div>
-        <div class="nav-item" onclick="showSection('easteregg')">Terminal</div>
+        <div class="nav-item" onclick="showSection('projects')">Projects</div>
+        <div class="nav-item" onclick="showSection('game')">Game</div>
     </nav>
 
     <section id="home" class="visible">
         <div id="hero-wrapper">
-            <canvas id="particle-canvas"></canvas>
+            <canvas id="hologram-canvas"></canvas>
             <div class="hero-content">
                 <h1>Fangxin (Felix) Liu</h1>
-                <p class="hero-subtitle">Computer & Systems Engineer</p>
-                <div class="tag-container" style="justify-content: center; margin-top:20px;">
-                    <span class="tag">System Integration</span>
-                    <span class="tag">Firmware</span>
-                    <span class="tag">RPI '26</span>
-                </div>
+                <p style="font-size: 1.5rem; color: var(--text-secondary);">System Integration & Firmware Engineer</p>
+                <a href="https://github.com/FrodoLFX" target="_blank" class="github-btn">
+                    Visit GitHub Profile
+                </a>
             </div>
-            <div class="scroll-hint">Scroll for Bio</div>
         </div>
 
-        <div class="container visible" style="padding-top: 0;">
-            <div id="intro-text">
-                <h2>Engineering the Future of Systems</h2>
-                <p>
-                    I am a System Integration & Firmware Engineer with a passion for bridging hardware and software. 
-                    Currently pursuing my B.S. at <strong>Rensselaer Polytechnic Institute</strong> (GPA 3.40). 
-                    My expertise spans from microsecond-level safety tests at <strong>Tesla</strong> to mainframe development for New York State.
-                </p>
-            </div>
-            
-            <div class="bento-grid">
+        <div class="container visible">
+             <div class="bento-grid">
+                <div class="bento-card bento-wide">
+                    <h3>About Me</h3>
+                    <p>
+                        I am a Computer & Systems Engineering student at <strong>Rensselaer Polytechnic Institute</strong>. 
+                        My passion lies in the intersection of hardware and software—specifically in firmware, FPGA development, and system integration. 
+                        From testing microsecond-level safety fuses at <strong>Tesla</strong> to maintaining mainframes for New York State, I build robust, critical systems.
+                    </p>
+                </div>
                 <div class="bento-card">
                     <h3>Education</h3>
                     <h4>Rensselaer Polytechnic Institute</h4>
                     <p>Dec 2026 | Troy, NY</p>
-                    <p>B.S. Computer & Systems Engineering</p>
-                    <p style="font-size:0.85rem; opacity:0.8;">Coursework: Advanced Hardware Design, Embedded Control, Computer Architecture, Operating Systems.</p>
-                </div>
-                <div class="bento-card">
-                    <h3>Core Skills</h3>
-                    <div class="tag-container">
-                        <span class="tag">C++ / C</span>
-                        <span class="tag">Python</span>
-                        <span class="tag">System Verilog</span>
-                        <span class="tag">CUDA</span>
-                        <span class="tag">FPGA</span>
-                        <span class="tag">RISC-V</span>
-                        <span class="tag">MATLAB</span>
-                        <span class="tag">Oscilloscope</span>
-                    </div>
+                    <p><strong>B.S. Computer & Systems Engineering</strong></p>
+                    <p style="margin-top:10px; font-size:0.85rem;">Coursework: Advanced Hardware Design, Embedded Control, Computer Architecture, Operating Systems.</p>
                 </div>
                 <div class="bento-card">
                     <h3>Contact</h3>
                     <p><strong>Email:</strong> liuf8@rpi.edu</p>
                     <p><strong>Phone:</strong> +1 (347) 404-2110</p>
-                    <p><strong>Location:</strong> New York, US</p>
+                    <p><strong>Loc:</strong> Troy, NY / New York, NY</p>
                 </div>
             </div>
         </div>
     </section>
 
     <div id="work" class="container">
-        <h2 style="font-size: 3rem; text-align: center; margin-bottom: 40px;">Experience</h2>
+        <h2 style="text-align:center; font-size:3rem; margin-bottom:40px;">Professional Experience</h2>
         <div class="bento-grid">
             <div class="bento-card bento-wide">
                 <h3>Tesla</h3>
                 <h4>System Integration Engineer Intern | Jun 2024 - Sep 2024</h4>
                 <ul>
-                    <li>Executed <strong>55+ system integration tests</strong> and 80+ microsecond-level e-fuse safety tests on new generation Model Y.</li>
-                    <li>Identified 3 safety enhancements for components; implemented protections increasing safety rate by 50% in harsh environments.</li>
-                    <li>Led development of low-voltage electronics bucks, validating 358 subsystem parts.</li>
-                    <li>Performed thermal tests for 60% of controllers and gathered 5000+ data sets for thermal modeling.</li>
-                    <li>Defined "Gen 3 Low-Voltage Electronic System Architecture" documentation for onboarding.</li>
+                    <li>Executed 55+ system integration tests and 80+ microsecond-level e-fuse safety tests on Model Y.</li>
+                    <li>Designed and implemented protection measures for electronic components, increasing safety rate by 50% in harsh environments.</li>
+                    <li>Led development of low-voltage electronics bucks, validating 358 subsystem parts configurations.</li>
+                    <li>Performed thermal tests for 60% of controllers, gathering 5000+ data sets for modeling.</li>
                 </ul>
             </div>
-
             <div class="bento-card">
                 <h3>Tesla</h3>
                 <h4>Low Voltage Systems TPM Intern | Jan 2024 - May 2024</h4>
                 <ul>
-                    <li>Led construction of 7 infotainment bucks for e-call validation; supported 15 nationwide service centers.</li>
-                    <li>Managed Solar Chamber project for HVAC team, improving sensor accuracy by 30%.</li>
+                    <li>Led construction of 7 infotainment bucks for e-call validation.</li>
+                    <li>Managed Solar Chamber project, improving solar sensor accuracy by 30%.</li>
                     <li>Managed WEBOM system tracking 2000+ components.</li>
-                    <li>Prepared Engineering Bill of Material (EBOM) for new vehicles.</li>
                 </ul>
             </div>
-
             <div class="bento-card">
                 <h3>NYS Office of IT Services</h3>
                 <h4>Mainframe Development Intern | Feb 2023 - Dec 2023</h4>
                 <ul>
                     <li>Maintained 24/7 Mainframe System serving all of New York State.</li>
-                    <li>Managed file transfers using Unisys 2200 Mainframe.</li>
-                    <li>Led intern team to rewrite system log processing, remediating 200+ deprecated routines.</li>
+                    <li>Led team to remediate 200+ deprecated system routines.</li>
                 </ul>
             </div>
         </div>
     </div>
 
     <div id="projects" class="container">
-        <h2 style="font-size: 3rem; text-align: center; margin-bottom: 40px;">Research & Projects</h2>
+        <h2 style="text-align:center; font-size:3rem; margin-bottom:40px;">Research & Personal Projects</h2>
         <div class="bento-grid">
+            
             <div class="bento-card bento-wide">
-                <h3>RPI ECSE Department</h3>
-                <h4>Research Assistant | Sep 2025 - Current</h4>
-                <p>Focusing on high-performance computing optimization.</p>
+                <h3>Research Assistant</h3>
+                <h4>RPI ECSE Department | Sep 2025 - Current</h4>
                 <ul>
-                    <li>Conducting research on GPU customized operation using <strong>C++ with CUDA and CUTLASS</strong>.</li>
+                    <li>Conducting research on GPU customized operation using C++ with CUDA and CUTLASS.</li>
                     <li>Researching Accelerated Computation using Python with PyTorch.</li>
                 </ul>
             </div>
 
             <div class="bento-card">
-                <h3>RISC-V Processor</h3>
-                <h4>FPGA Project</h4>
-                <p>Designed an FPGA Pipeline 5-stage RISC-V Processor using System-Verilog HDL.</p>
-                <p>Supports native RISC-V assembly programs.</p>
+                <h3>Ultrasonic Robotic Car</h3>
+                <h4>Embedded Systems Project</h4>
+                <p>Built a robotic car based on <strong>TI MSP-EXP432 "Launch Pad"</strong> and TI RSLK Embedded System.</p>
+                <ul>
+                    <li>Programmed motion sensing joystick based on Arduino-Leonardo.</li>
+                    <li>Implemented autonomous navigation logic.</li>
+                </ul>
             </div>
 
             <div class="bento-card">
-                <h3>Robotic Car</h3>
-                <h4>Embedded Systems</h4>
-                <p>Ultrasonic Ranging Robotic Car based on TI MSP-EXP432 "Launch Pad".</p>
-                <p>Integrated with TI RSLK Embedded System and motion sensing joysticks.</p>
+                <h3>FPGA Development</h3>
+                <h4>Hardware Design</h4>
+                <p>Comprehensive FPGA design using Verilog/VHDL.</p>
+                <ul>
+                    <li>Developed Display Module, Comparator, Encoder, Decoder, and Full-Adder.</li>
+                    <li>Designed a <strong>5-stage Pipeline RISC-V Processor</strong> supporting assembly programs.</li>
+                </ul>
+            </div>
+
+            <div class="bento-card">
+                <h3>IBM z/OS Open Source</h3>
+                <h4>Rensselaer Center for Open Source</h4>
+                <p>Contributed to z/OS open-source development in collaboration with IBM.</p>
+                <p>Focus on modernizing mainframe utilities.</p>
             </div>
         </div>
     </div>
 
-    <div id="easteregg" class="container">
-        <h2 style="font-size: 3rem; text-align: center; margin-bottom: 20px;">System Breach</h2>
-        <p style="text-align:center; color: var(--text-secondary); margin-bottom: 30px;">
-            Navigate the data stream. Avoid the red firewalls. Collect the blue keys.
-        </p>
+    <div id="game" class="container">
+        <h2 style="text-align:center; margin-bottom:20px;">Packet Defender</h2>
         <div id="game-wrapper">
             <div id="game-ui">
-                <h2 style="margin-bottom:10px;">Ready to Hack?</h2>
-                <p>Use Arrow Keys to move</p>
-                <button class="play-btn" onclick="initGame()">INITIALIZE</button>
+                <h2>System Security Breach</h2>
+                <p>Click to Shoot. Move Mouse to Aim.</p>
+                <p>Don't let the red packets pass the firewall.</p>
+                <button class="play-btn" onclick="initGame()">START DEFENSE</button>
             </div>
             <canvas id="game-canvas"></canvas>
         </div>
     </div>
 
     <script>
-        // --- SECTION MANAGEMENT ---
+        // --- THEME TOGGLE ---
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('theme-toggle');
+            if(body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                btn.innerText = "Dark Mode";
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                btn.innerText = "Light Mode";
+            }
+        }
+
+        // --- SECTION SWITCHING ---
         function showSection(id) {
-            // Update Nav
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             const activeBtn = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick').includes(id));
             if(activeBtn) activeBtn.classList.add('active');
 
-            // Hide all main containers except Hero if 'home'
+            // Handle Visibility
             if (id === 'home') {
                 document.getElementById('home').style.display = 'block';
                 document.querySelectorAll('.container').forEach(el => {
                     if (el.parentElement.id !== 'home') el.classList.remove('visible');
                 });
-                // Ensure intro inside home is visible
                 setTimeout(() => document.querySelector('#home .container').classList.add('visible'), 100);
             } else {
                 document.getElementById('home').style.display = 'none';
                 document.querySelectorAll('body > .container').forEach(el => el.classList.remove('visible'));
-                
                 const target = document.getElementById(id);
                 target.style.display = 'block';
-                // Trigger reflow for fade animation
-                void target.offsetWidth; 
+                void target.offsetWidth; // Force Reflow
                 target.classList.add('visible');
             }
-
-            // Game Handling
-            if(id === 'easteregg') {
-                // Resize game canvas to fit wrapper when visible
-                resizeGame();
-            } else {
-                gameRunning = false;
-            }
+            
+            if(id === 'game') resizeGame();
+            else gameRunning = false;
         }
 
-        // --- ADVANCED PARTICLE SYSTEM ---
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-        let mouse = { x: -1000, y: -1000 };
+        // --- 3D HOLOGRAM UNIVERSE ---
+        const hCanvas = document.getElementById('hologram-canvas');
+        const hCtx = hCanvas.getContext('2d');
+        let hWidth, hHeight;
+        let stars = [];
+        let mouseX = 0, mouseY = 0;
 
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+        function resizeHologram() {
+            hWidth = hCanvas.width = window.innerWidth;
+            hHeight = hCanvas.height = window.innerHeight;
         }
-        window.addEventListener('resize', resize);
-        resize();
-
+        window.addEventListener('resize', resizeHologram);
         window.addEventListener('mousemove', e => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
+            mouseX = (e.clientX - hWidth/2) * 0.001;
+            mouseY = (e.clientY - hHeight/2) * 0.001;
         });
 
-        class Particle {
+        class Star {
             constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2 + 1;
-                this.baseX = this.x;
-                this.baseY = this.y;
-                this.density = (Math.random() * 30) + 1;
+                this.x = (Math.random() - 0.5) * 2000;
+                this.y = (Math.random() - 0.5) * 2000;
+                this.z = (Math.random() - 0.5) * 2000;
+                this.size = Math.random() * 2;
+                this.color = Math.random() > 0.8 ? '#2997ff' : '#ffffff';
             }
-
             update() {
-                // Mouse interaction
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx*dx + dy*dy);
-                let forceDirectionX = dx / distance;
-                let forceDirectionY = dy / distance;
-                let maxDistance = 200;
-                let force = (maxDistance - distance) / maxDistance;
-                let directionX = forceDirectionX * force * this.density;
-                let directionY = forceDirectionY * force * this.density;
+                // Rotation Matrix
+                const cosX = Math.cos(mouseY); const sinX = Math.sin(mouseY);
+                const cosY = Math.cos(mouseX); const sinY = Math.sin(mouseX);
 
-                if (distance < maxDistance) {
-                    this.x -= directionX;
-                    this.y -= directionY;
-                } else {
-                    if (this.x !== this.baseX) {
-                        let dx = this.x - this.baseX;
-                        this.x -= dx/20;
-                    }
-                    if (this.y !== this.baseY) {
-                        let dy = this.y - this.baseY;
-                        this.y -= dy/20;
-                    }
-                }
+                // Rotate Y
+                let dx = this.x * cosY - this.z * sinY;
+                let dz = this.z * cosY + this.x * sinY;
+                this.x = dx; this.z = dz;
 
-                // Natural movement
-                this.baseX += this.vx;
-                this.baseY += this.vy;
-
-                // Wrap around
-                if(this.baseX > width) { this.baseX = 0; this.x = 0; }
-                if(this.baseX < 0) { this.baseX = width; this.x = width; }
-                if(this.baseY > height) { this.baseY = 0; this.y = 0; }
-                if(this.baseY < 0) { this.baseY = height; this.y = height; }
+                // Rotate X
+                let dy = this.y * cosX - this.z * sinX;
+                dz = this.z * cosX + this.y * sinX;
+                this.y = dy; this.z = dz;
             }
-
             draw() {
-                ctx.fillStyle = 'rgba(41, 151, 255, 0.6)'; // Apple blue
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.closePath();
-                ctx.fill();
-            }
-        }
+                // Projection
+                let fov = 600;
+                let scale = fov / (fov + this.z);
+                if (scale < 0) return; // Behind camera
 
-        function initParticles() {
-            particles = [];
-            for(let i=0; i < 150; i++) particles.push(new Particle());
-            animate();
-        }
+                let x2d = hWidth/2 + this.x * scale;
+                let y2d = hHeight/2 + this.y * scale;
 
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            
-            // Connect particles
-            for (let a = 0; a < particles.length; a++) {
-                for (let b = a; b < particles.length; b++) {
-                    let dx = particles[a].x - particles[b].x;
-                    let dy = particles[a].y - particles[b].y;
-                    let dist = Math.sqrt(dx*dx + dy*dy);
-
-                    if (dist < 100) {
-                        ctx.strokeStyle = `rgba(41, 151, 255, ${1 - dist/100})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[a].x, particles[a].y);
-                        ctx.lineTo(particles[b].x, particles[b].y);
-                        ctx.stroke();
-                    }
+                hCtx.fillStyle = this.color;
+                hCtx.beginPath();
+                hCtx.arc(x2d, y2d, this.size * scale, 0, Math.PI * 2);
+                hCtx.fill();
+                
+                // Connection lines for hologram effect
+                if(Math.random() > 0.99) {
+                    hCtx.strokeStyle = `rgba(41, 151, 255, ${0.2 * scale})`;
+                    hCtx.beginPath();
+                    hCtx.moveTo(hWidth/2, hHeight/2);
+                    hCtx.lineTo(x2d, y2d);
+                    hCtx.stroke();
                 }
-                particles[a].update();
-                particles[a].draw();
             }
-            requestAnimationFrame(animate);
         }
-        initParticles();
 
+        function initHologram() {
+            resizeHologram();
+            stars = [];
+            for(let i=0; i<400; i++) stars.push(new Star());
+            animateHologram();
+        }
 
-        // --- GAME LOGIC ---
+        function animateHologram() {
+            hCtx.fillStyle = document.body.getAttribute('data-theme') === 'dark' ? 'rgba(5,5,5,0.3)' : 'rgba(242,242,247,0.3)';
+            hCtx.fillRect(0,0, hWidth, hHeight);
+            
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animateHologram);
+        }
+        initHologram();
+
+        // --- JELLO / BOUNCY CARD EFFECT ---
+        const cards = document.querySelectorAll('.bento-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -10; // Max 10deg rotation
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                card.style.transition = 'transform 0.1s ease-out'; // Fast response
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
+                card.style.transition = 'transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; // Bouncy spring back
+            });
+        });
+
+        // --- UPGRADED GAME: PACKET DEFENDER ---
         const gCanvas = document.getElementById('game-canvas');
         const gCtx = gCanvas.getContext('2d');
         let gameRunning = false;
-        let p = { x: 50, y: 50, s: 20 };
-        let target = { x: 200, y: 200, s: 15 };
-        let obstacles = [];
+        let player = { x: 0, y: 0, s: 30 };
+        let projectiles = [];
+        let enemies = [];
+        let particles = [];
         let score = 0;
-        let keys = {};
-
-        window.addEventListener('keydown', e => keys[e.key] = true);
-        window.addEventListener('keyup', e => keys[e.key] = false);
+        let spawnRate = 60;
+        let frame = 0;
 
         function resizeGame() {
             const wrapper = document.getElementById('game-wrapper');
             gCanvas.width = wrapper.clientWidth;
             gCanvas.height = wrapper.clientHeight;
+            player.y = gCanvas.height - 50;
         }
+
+        gCanvas.addEventListener('mousemove', e => {
+            const rect = gCanvas.getBoundingClientRect();
+            player.x = e.clientX - rect.left - player.s/2;
+        });
+
+        gCanvas.addEventListener('click', () => {
+            if(gameRunning) {
+                projectiles.push({x: player.x + player.s/2, y: player.y, r: 4});
+            }
+        });
 
         function initGame() {
             document.getElementById('game-ui').style.display = 'none';
             resizeGame();
-            p = { x: gCanvas.width/2, y: gCanvas.height/2, s: 20 };
-            score = 0;
-            obstacles = [];
-            spawnObstacle();
+            projectiles = []; enemies = []; particles = [];
+            score = 0; frame = 0;
             gameRunning = true;
-            loopGame();
+            gameLoop();
         }
 
-        function spawnObstacle() {
-            obstacles.push({
-                x: Math.random() * gCanvas.width,
-                y: Math.random() * gCanvas.height,
-                vx: (Math.random() - 0.5) * 6,
-                vy: (Math.random() - 0.5) * 6,
-                s: 15
-            });
+        function createExplosion(x, y, color) {
+            for(let i=0; i<10; i++) {
+                particles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * 5,
+                    vy: (Math.random() - 0.5) * 5,
+                    life: 30, color: color
+                });
+            }
         }
 
-        function loopGame() {
+        function gameLoop() {
             if(!gameRunning) return;
+            frame++;
 
-            gCtx.fillStyle = 'rgba(0,0,0,0.3)'; // Trail effect
+            gCtx.fillStyle = 'rgba(0,0,0,0.2)';
             gCtx.fillRect(0,0, gCanvas.width, gCanvas.height);
 
-            // Player logic
-            if(keys['ArrowUp']) p.y -= 5;
-            if(keys['ArrowDown']) p.y += 5;
-            if(keys['ArrowLeft']) p.x -= 5;
-            if(keys['ArrowRight']) p.x += 5;
-
-            // Boundaries
-            if(p.x < 0) p.x = 0;
-            if(p.x > gCanvas.width - p.s) p.x = gCanvas.width - p.s;
-            if(p.y < 0) p.y = 0;
-            if(p.y > gCanvas.height - p.s) p.y = gCanvas.height - p.s;
-
-            // Draw Player (Green)
-            gCtx.fillStyle = '#32d74b'; 
-            gCtx.shadowBlur = 15; gCtx.shadowColor = '#32d74b';
-            gCtx.fillRect(p.x, p.y, p.s, p.s);
+            // Player
+            gCtx.fillStyle = '#2997ff';
+            gCtx.shadowBlur = 15; gCtx.shadowColor = '#2997ff';
+            gCtx.fillRect(player.x, player.y, player.s, player.s);
             gCtx.shadowBlur = 0;
 
-            // Draw Target (Blue)
-            gCtx.fillStyle = '#0a84ff';
-            gCtx.fillRect(target.x, target.y, target.s, target.s);
+            // Projectiles
+            gCtx.fillStyle = '#fff';
+            projectiles.forEach((p, i) => {
+                p.y -= 8;
+                gCtx.beginPath(); gCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); gCtx.fill();
+                if(p.y < 0) projectiles.splice(i, 1);
+            });
 
-            // Check Score
-            if(p.x < target.x + target.s && p.x + p.s > target.x &&
-               p.y < target.y + target.s && p.y + p.s > target.y) {
-                score++;
-                target.x = Math.random() * (gCanvas.width - 30);
-                target.y = Math.random() * (gCanvas.height - 30);
-                if(score % 2 == 0) spawnObstacle();
+            // Enemies
+            if(frame % spawnRate === 0) {
+                enemies.push({
+                    x: Math.random() * (gCanvas.width - 30),
+                    y: -30, w: 30, h: 30, speed: Math.random() * 2 + 1
+                });
+                if(spawnRate > 20) spawnRate--;
             }
 
-            // Draw Score
-            gCtx.fillStyle = 'white';
-            gCtx.font = "20px sans-serif";
-            gCtx.fillText("Keys Collected: " + score, 20, 40);
+            enemies.forEach((e, i) => {
+                e.y += e.speed;
+                gCtx.fillStyle = '#ff3b30';
+                gCtx.shadowBlur = 10; gCtx.shadowColor = '#ff3b30';
+                gCtx.fillRect(e.x, e.y, e.w, e.h);
+                gCtx.shadowBlur = 0;
 
-            // Obstacles (Red)
-            gCtx.fillStyle = '#ff453a';
-            obstacles.forEach(o => {
-                o.x += o.vx; o.y += o.vy;
-                if(o.x < 0 || o.x > gCanvas.width) o.vx *= -1;
-                if(o.y < 0 || o.y > gCanvas.height) o.vy *= -1;
-                gCtx.fillRect(o.x, o.y, o.s, o.s);
+                // Collision with Projectile
+                projectiles.forEach((p, pi) => {
+                    if(p.x > e.x && p.x < e.x + e.w && p.y > e.y && p.y < e.y + e.h) {
+                        createExplosion(e.x + e.w/2, e.y + e.h/2, '#ff3b30');
+                        enemies.splice(i, 1);
+                        projectiles.splice(pi, 1);
+                        score += 10;
+                    }
+                });
 
-                // Collision
-                if(p.x < o.x + o.s && p.x + p.s > o.x &&
-                   p.y < o.y + o.s && p.y + p.s > o.y) {
+                // Game Over Condition
+                if(e.y > gCanvas.height) {
                     gameRunning = false;
-                    alert("SYSTEM BREACH DETECTED. SCORE: " + score);
                     document.getElementById('game-ui').style.display = 'block';
+                    document.querySelector('#game-ui h2').innerText = "BREACHED! SCORE: " + score;
                 }
             });
 
-            requestAnimationFrame(loopGame);
+            // Particles
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy; p.life--;
+                gCtx.fillStyle = p.color;
+                gCtx.fillRect(p.x, p.y, 2, 2);
+                if(p.life <= 0) particles.splice(i, 1);
+            });
+
+            // Score
+            gCtx.fillStyle = '#fff';
+            gCtx.font = "20px Arial";
+            gCtx.fillText("Score: " + score, 20, 30);
+
+            requestAnimationFrame(gameLoop);
         }
+
     </script>
 </body>
 </html>
