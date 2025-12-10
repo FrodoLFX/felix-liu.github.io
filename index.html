@@ -8,35 +8,36 @@
         :root {
             /* DARK MODE (Default) */
             --bg-color: #000000;
-            --card-bg: rgba(20, 20, 20, 0.88);
-            --card-border: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(20, 20, 20, 0.80);
+            --card-border: rgba(255, 255, 255, 0.12);
             --text-primary: #f5f5f7;
             --text-secondary: #a1a1a6;
             --accent-blue: #2997ff;
             --nav-bg: rgba(10, 10, 10, 0.85);
-            --shadow: 0 8px 32px rgba(0,0,0,0.5);
+            --shadow: 0 18px 40px rgba(0,0,0,0.7);
             --glass-blur: blur(30px);
         }
 
         [data-theme="light"] {
             /* LIGHT MODE */
             --bg-color: #f5f5f7;
-            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-bg: rgba(255, 255, 255, 0.94);
             --card-border: rgba(0, 0, 0, 0.08);
             --text-primary: #1d1d1f;
             --text-secondary: #515154;
             --accent-blue: #0071e3;
             --nav-bg: rgba(255, 255, 255, 0.9);
-            --shadow: 0 8px 32px rgba(0,0,0,0.12);
+            --shadow: 0 18px 40px rgba(0,0,0,0.14);
+            --glass-blur: blur(26px);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
             background-color: var(--bg-color);
             background-image:
-                radial-gradient(circle at 20% 0%, rgba(41,151,255,0.18), transparent 55%),
-                radial-gradient(circle at 80% 100%, rgba(0,0,0,0.9), transparent 60%);
+                radial-gradient(circle at 20% -10%, rgba(41,151,255,0.25), transparent 55%),
+                radial-gradient(circle at 80% 110%, rgba(0,0,0,0.9), transparent 60%);
             color: var(--text-primary);
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, sans-serif;
             overflow-x: hidden;
@@ -45,151 +46,182 @@
 
         body[data-theme="light"] {
             background-image:
-                radial-gradient(circle at 10% -10%, rgba(0,113,227,0.08), transparent 55%),
-                radial-gradient(circle at 90% 110%, rgba(0,0,0,0.06), transparent 60%);
+                radial-gradient(circle at 10% -10%, rgba(0,113,227,0.10), transparent 55%),
+                radial-gradient(circle at 100% 110%, rgba(0,0,0,0.08), transparent 60%);
         }
 
-        /* --- BACKGROUND HOLOGRAM --- */
-        canvas#hologram-canvas {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
+        /* HOLOGRAM BACKGROUND */
+        #hologram-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: -1;
         }
 
-        /* --- NAVIGATION --- */
+        /* NAV */
         nav {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 500px; height: 60px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 520px;
+            height: 60px;
             background: var(--nav-bg);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             border-radius: 50px;
             border: 1px solid var(--card-border);
-            display: flex; justify-content: space-around; align-items: center;
-            padding: 0 10px; z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            z-index: 1000;
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.45),
+                0 0 20px rgba(41,151,255,0.25);
             transition: all 0.3s ease;
         }
 
-        nav a {
-            text-decoration: none; color: var(--text-secondary);
-            font-size: 0.9rem; font-weight: 500;
-            padding: 8px 16px; border-radius: 999px;
-            transition: all 0.2s ease;
+        .nav-item {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 8px 18px;
+            border-radius: 30px;
+            transition: all 0.25s ease;
+            user-select: none;
         }
 
-        nav a.active, nav a:hover {
-            background: rgba(255,255,255,0.08);
+        .nav-item:hover {
             color: var(--text-primary);
+            background: rgba(125,125,125,0.12);
+        }
+
+        .nav-item.active {
+            color: #fff;
+            background: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(41,151,255,0.55);
         }
 
         #theme-toggle {
-            position: fixed; top: 25px; right: 25px; z-index: 1001;
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1001;
             background: var(--nav-bg);
             border: 1px solid var(--card-border);
             color: var(--text-primary);
-            padding: 10px 18px; border-radius: 20px;
-            cursor: pointer; backdrop-filter: var(--glass-blur); font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            font-weight: 600;
+            font-size: 0.85rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.45);
         }
 
-        /* --- PAGE STRUCTURE --- */
+        /* LAYOUT */
         main {
-            min-height: 100vh; 
-            display: flex; flex-direction: column; 
-            align-items: center; justify-content: center;
-            padding: 120px 20px 60px 20px;
+            padding: 110px 20px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .hero {
-            max-width: 1100px;
-            width: 100%;
-            display: grid; grid-template-columns: 1.1fr 0.9fr; 
-            gap: 40px; align-items: center;
+        .page-section {
+            display: none;
+            padding-bottom: 80px;
         }
 
-        @media (max-width: 900px) {
-            .hero {
-                grid-template-columns: 1fr;
-            }
-            .hero-right { order: -1; }
-            nav { width: 94%; }
+        .page-section.active {
+            display: block;
         }
 
-        .hero-left h1 {
-            font-size: 3.5rem; line-height: 1.1; letter-spacing: -0.04em;
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            letter-spacing: -0.03em;
         }
 
-        .hero-left h1 span.highlight {
-            background: linear-gradient(120deg, #2997ff, #a1c4fd);
-            -webkit-background-clip: text; color: transparent;
-        }
-
-        .hero-left p.subtitle {
-            margin-top: 16px; font-size: 1.05rem; color: var(--text-secondary);
-            max-width: 520px;
-        }
-
-        .hero-tags {
-            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;
-        }
-
-        .hero-tags span {
-            font-size: 0.75rem; text-transform: uppercase;
-            letter-spacing: 0.08em; padding: 6px 10px;
-            border-radius: 999px;
-            border: 1px solid rgba(255,255,255,0.12);
-            background: rgba(255,255,255,0.04);
+        .section-subtitle {
+            font-size: 0.95rem;
             color: var(--text-secondary);
+            margin-bottom: 20px;
         }
 
-        .hero-cta {
-            margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;
-        }
-
-        .hero-cta a {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 10px 20px; border-radius: 999px;
-            font-size: 0.95rem; font-weight: 600;
-            text-decoration: none;
-        }
-
-        .hero-cta a.primary {
-            background: var(--accent-blue);
-            color: white;
-            box-shadow: 0 12px 30px rgba(41,151,255,0.45);
-        }
-
-        .hero-cta a.secondary {
-            border: 1px solid var(--card-border);
-            color: var(--text-primary);
-            background: rgba(255,255,255,0.03);
-        }
-
-        .hero-cta a.primary:hover {
-            filter: brightness(1.05); transform: translateY(-1px);
-        }
-
-        .hero-cta a.secondary:hover {
-            background: rgba(255,255,255,0.06);
-        }
-
-        /* --- BENTO GRID --- */
-        .bento-grid {
-            margin-top: 40px;
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
+        /* HOME HERO */
+        .hero-container {
+            min-height: 60vh;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
             gap: 20px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
-        @media (max-width: 900px) {
-            .bento-grid {
-                grid-template-columns: 1fr;
-            }
+        .hero-text h1 {
+            font-size: 3.4rem;
+            line-height: 1.05;
+            letter-spacing: -0.05em;
         }
 
-        .bento-column {
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-top: 12px;
+            margin-bottom: 24px;
+        }
+
+        .hero-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border-radius: 999px;
+            background: var(--accent-blue);
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            box-shadow: 0 14px 30px rgba(41,151,255,0.6);
+        }
+
+        .hero-link:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+
+        .scroll-indicator {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.16);
+            background: rgba(0,0,0,0.35);
+            animation: bounce 1.6s infinite;
+        }
+
+        @keyframes bounce {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(7px); }
+        }
+
+        /* ABOUT / BENTO */
+        .about-detailed {
+            margin-top: 55px;
+        }
+
+        .bento-grid {
+            margin-top: 16px;
             display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 20px;
         }
 
@@ -197,725 +229,314 @@
             position: relative;
             background: var(--card-bg);
             border: 1px solid var(--card-border);
+            border-radius: 26px;
+            padding: 24px 24px 22px;
+            box-shadow: var(--shadow);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
-            border-radius: 32px;
-            padding: 35px;
-            box-shadow: var(--shadow);
             overflow: hidden;
-            
             transform-style: preserve-3d;
-            will-change: transform;
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            transition: transform 0.5s cubic-bezier(0.175,0.885,0.32,1.275),
+                        box-shadow 0.3s ease,
+                        background 0.3s ease;
         }
 
-        /* Themed card & chrome shadows */
-        body[data-theme="dark"] .bento-card {
+        .bento-card:hover {
             box-shadow:
-                0 0 22px rgba(41, 151, 255, 0.22),
-                0 28px 70px rgba(0, 0, 0, 0.9);
+                0 0 20px rgba(41,151,255,0.35),
+                0 24px 50px rgba(0,0,0,0.85);
         }
 
-        body[data-theme="dark"] .bento-card::before {
-            content: "";
-            position: absolute;
-            inset: -40%;
-            background:
-                radial-gradient(circle at top left, rgba(41,151,255,0.30), transparent 60%),
-                radial-gradient(circle at bottom right, rgba(0,255,200,0.15), transparent 55%);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-        }
-
-        body[data-theme="dark"] .bento-card:hover::before {
-            opacity: 1;
-        }
-
-        body[data-theme="dark"] nav {
+        body[data-theme="light"] .bento-card:hover {
             box-shadow:
-                0 0 18px rgba(41,151,255,0.35),
-                0 18px 40px rgba(0,0,0,0.7);
+                0 16px 35px rgba(0,0,0,0.16),
+                0 0 0 1px rgba(0,0,0,0.03);
         }
 
-        body[data-theme="dark"] #theme-toggle {
-            box-shadow:
-                0 0 14px rgba(41,151,255,0.4),
-                0 12px 30px rgba(0,0,0,0.9);
+        .bento-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
         }
 
-        body[data-theme="light"] .bento-card {
-            box-shadow:
-                0 18px 40px rgba(0, 0, 0, 0.12),
-                0 1px 0 rgba(255,255,255,0.8);
+        .bento-card h4 {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            margin-bottom: 8px;
         }
 
-        body[data-theme="light"] nav,
-        body[data-theme="light"] #theme-toggle {
-            box-shadow:
-                0 12px 28px rgba(0, 0, 0, 0.12),
-                0 0 0 0.5px rgba(0, 0, 0, 0.04);
-        }
-
-        .bento-card.moving { transition: transform 0.1s linear; }
-
-        .bento-card h3 { font-size: 1.6rem; margin-bottom: 8px; }
-        .bento-card p { font-size: 0.95rem; color: var(--text-secondary); }
-
-        .bento-card .meta {
-            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;
-        }
-
-        .meta span {
-            font-size: 0.75rem; padding: 4px 10px; border-radius: 999px;
-            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+        .bento-card p,
+        .bento-card ul {
+            font-size: 0.95rem;
+            line-height: 1.7;
             color: var(--text-secondary);
         }
 
-        .card-header-row {
-            display: flex; justify-content: space-between; align-items: baseline;
-            gap: 12px; margin-bottom: 8px;
+        .bento-card ul {
+            padding-left: 18px;
+            margin-top: 10px;
         }
 
-        .card-header-row span.label {
-            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.14em;
-            color: var(--accent-blue);
+        .bento-card li {
+            margin-bottom: 8px;
         }
 
-        /* --- SPECIFIC CARDS --- */
-        .card-experience h3 { margin-bottom: 14px; }
-        .card-experience ul { list-style: none; margin-top: 8px; }
-        .card-experience li {
-            font-size: 0.9rem; color: var(--text-secondary);
-            margin-bottom: 6px;
+        .bento-wide {
+            grid-column: 1 / -1;
         }
 
-        .badge-row {
-            display: flex; flex-wrap: wrap; gap: 6px;
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tag {
+            background: rgba(125,125,125,0.20);
+            color: var(--text-primary);
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
             margin-top: 14px;
         }
 
-        .badge-row span {
-            font-size: 0.8rem; padding: 4px 9px; border-radius: 999px;
-            border: 1px solid rgba(255,255,255,0.15);
+        .meta-chip {
+            font-size: 0.78rem;
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.18);
             background: rgba(255,255,255,0.03);
+            color: var(--text-secondary);
         }
 
-        .card-skills .skill-grid {
-            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px;
-            margin-top: 14px;
+        /* GAME SECTION */
+        #game-wrapper {
+            position: relative;
+            margin-top: 24px;
+            max-width: 900px;
         }
 
-        .skill-pill {
-            font-size: 0.8rem; padding: 6px 10px; border-radius: 999px;
-            border: 1px solid rgba(255,255,255,0.14);
-            display: inline-flex; align-items: center; justify-content: space-between;
+        #game-canvas {
+            width: 100%;
+            max-width: 900px;
+            height: 320px;
+            background: radial-gradient(circle at top, #333, #000);
+            border-radius: 22px;
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 26px 50px rgba(0,0,0,0.9);
+            display: block;
         }
 
-        .skill-pill span.label {
-            opacity: 0.8;
+        body[data-theme="light"] #game-canvas {
+            background: radial-gradient(circle at top, #505050, #111);
         }
 
-        .skill-pill span.level {
-            font-size: 0.7rem; opacity: 0.7;
+        #game-ui {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: rgba(5, 5, 10, 0.86);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 22px;
+            border: 1px solid var(--accent-blue);
+            color: #fff;
         }
 
-        .card-projects ul { list-style: none; margin-top: 10px; }
-        .card-projects li {
+        #game-ui h3 {
+            font-size: 1.4rem;
             margin-bottom: 10px;
         }
 
-        .card-projects strong { display: block; font-size: 0.93rem; }
-
-        .card-projects span.tagline {
-            font-size: 0.85rem; color: var(--text-secondary);
+        #game-ui p {
+            font-size: 0.95rem;
+            color: #ddd;
         }
 
-        .card-projects a {
-            display: inline-flex; align-items: center; gap: 5px;
-            font-size: 0.8rem; margin-top: 4px;
-            color: var(--accent-blue); text-decoration: none;
+        .play-btn {
+            background: var(--accent-blue);
+            color: #fff;
+            border: none;
+            padding: 12px 34px;
+            border-radius: 999px;
+            font-size: 1rem;
+            margin-top: 24px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 18px 40px rgba(41,151,255,0.7);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
 
-        .card-projects a:hover {
-            text-decoration: underline;
+        .play-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 22px 50px rgba(41,151,255,0.85);
         }
 
-        .card-quick ul {
-            list-style: none; margin-top: 12px;
-        }
-
-        .card-quick li {
-            font-size: 0.9rem; margin-bottom: 6px; color: var(--text-secondary);
-        }
-
-        .mono {
-            font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-        }
-
-        .chip {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 4px 10px; border-radius: 999px; font-size: 0.8rem;
-            border: 1px solid rgba(255,255,255,0.15);
-            background: rgba(255,255,255,0.03);
-        }
-
-        .chip-dot {
-            width: 7px; height: 7px; border-radius: 50%; background: #32d74b;
-            box-shadow: 0 0 8px rgba(50,215,75,0.7);
-        }
-
-        .chip-dot.busy {
-            background: #ff9f0a;
-            box-shadow: 0 0 8px rgba(255,159,10,0.7);
-        }
-
-        .chip-dot.offline {
-            background: #ff453a;
-            box-shadow: 0 0 8px rgba(255,69,58,0.7);
-        }
-
-        /* --- FOOTER --- */
+        /* FOOTER */
         footer {
-            text-align: center; padding: 20px 0 10px 0;
-            font-size: 0.8rem; color: var(--text-secondary);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: center;
+            padding-bottom: 20px;
         }
 
         footer a {
-            color: var(--accent-blue); text-decoration: none;
+            color: var(--accent-blue);
+            text-decoration: none;
         }
 
         footer a:hover {
             text-decoration: underline;
         }
 
-        /* --- GAME SECTION --- */
-        #game-section {
-            margin-top: 60px;
-            max-width: 1100px;
-            width: 100%;
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero-container {
+                flex-direction: column;
+                align-items: flex-start;
+                min-height: 50vh;
+            }
+            .scroll-indicator {
+                align-self: flex-start;
+                margin-top: 18px;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                width: 94%;
+            }
         }
-
-        #game-section h2 {
-            font-size: 1.4rem; margin-bottom: 10px;
-        }
-
-        #game-section p {
-            font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;
-        }
-
-        #gameCanvas {
-            background: radial-gradient(circle at top, #333, #000);
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
-            display: block;
-        }
-
-        #game-ui {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            text-align: center; background: rgba(10, 10, 10, 0.85); padding: 50px; border-radius: 30px;
-            backdrop-filter: blur(20px); border: 1px solid var(--accent-blue); color: #fff;
-        }
-        button.play-btn {
-            background: var(--accent-blue); color: white; border: none;
-            padding: 15px 40px; font-size: 1.1rem; border-radius: 40px;
-            cursor: pointer; font-weight: 600; margin-top: 25px;
-            transition: transform 0.2s;
-        }
-        button.play-btn:hover { transform: scale(1.05); }
-
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
     </style>
 </head>
 <body data-theme="dark">
-
-    <button id="theme-toggle" onclick="toggleTheme()">Light Mode</button>
+    <button id="theme-toggle" type="button">Light Mode</button>
 
     <nav>
-        <a href="#top" class="active">Overview</a>
-        <a href="#experience">Experience</a>
-        <a href="#projects">Projects</a>
-        <a href="#play">Play</a>
+        <div class="nav-item active" data-tab="home" onclick="switchTab('home')">Home</div>
+        <div class="nav-item" data-tab="work" onclick="switchTab('work')">Work</div>
+        <div class="nav-item" data-tab="projects" onclick="switchTab('projects')">Projects</div>
+        <div class="nav-item" data-tab="game" onclick="switchTab('game')">Game</div>
     </nav>
 
     <canvas id="hologram-canvas"></canvas>
 
-    <main id="top">
-        <section class="hero">
-            <div class="hero-left">
-                <h1>Felix <span class="highlight">Liu</span></h1>
-                <p class="subtitle">
-                    Computer & Systems Engineering @ RPI. I like making things that run fast, feel good to use, and talk to hardware.
+    <main>
+        <!-- HOME: 主页 + 下滑看详细信息 -->
+        <section id="home-section" class="page-section active">
+            <div class="hero-container">
+                <div class="hero-text">
+                    <h1>Fangxin (Felix) Liu</h1>
+                    <p class="hero-subtitle">System Integration & Firmware Engineer</p>
+                    <a href="https://github.com/FrodoLFX" target="_blank" rel="noreferrer" class="hero-link">
+                        GitHub Profile ↗
+                    </a>
+                </div>
+                <div class="scroll-indicator">Scroll for Details</div>
+            </div>
+
+            <div class="about-detailed">
+                <h2 class="section-title">About Me</h2>
+                <p class="section-subtitle">
+                    I like building things that sit close to the hardware layer: systems that need to boot,
+                    talk on buses, and fail rarely.
                 </p>
-                <div class="hero-tags">
-                    <span>Systems & Hardware</span>
-                    <span>Embedded & PLC</span>
-                    <span>GPU & HPC Curious</span>
-                    <span>Rust / C / Python</span>
-                </div>
-                <div class="hero-cta">
-                    <a class="primary" href="#experience">
-                        View Experience
-                    </a>
-                    <a class="secondary" href="#projects">
-                        See Projects
-                    </a>
-                </div>
-            </div>
-            <div class="hero-right">
                 <div class="bento-grid">
-                    <div class="bento-column">
-                        <article class="bento-card card-experience" id="experience">
-                            <div class="card-header-row">
-                                <div>
-                                    <span class="label">Experience</span>
-                                    <h3>Tesla · Systems Integration</h3>
-                                </div>
-                                <span class="mono">Summer '24</span>
-                            </div>
-                            <ul>
-                                <li>Validated vehicle systems, wrote test plans, and debugged edge-case failures on real hardware.</li>
-                                <li>Coordinated with firmware / hardware / diagnostics teams to close the loop fast.</li>
-                                <li>Picked up a lot of “why it broke at 3AM” intuition.</li>
-                            </ul>
-                            <div class="badge-row">
-                                <span>Python</span>
-                                <span>CAN / LIN</span>
-                                <span>HV & LV Systems</span>
-                                <span>Test Automation</span>
-                            </div>
-                        </article>
+                    <article class="bento-card">
+                        <h4>Engineering Philosophy</h4>
+                        <h3>Bridging bits & physical systems</h3>
+                        <p>
+                            I’m a Computer &amp; Systems Engineering student at
+                            <strong>Rensselaer Polytechnic Institute</strong>, focusing on the point where
+                            firmware, electronics, and real hardware safety meet.
+                            I enjoy debugging “impossible” failures and making systems behave under stress.
+                        </p>
+                    </article>
 
-                        <article class="bento-card card-skills">
-                            <div class="card-header-row">
-                                <div>
-                                    <span class="label">Skillset</span>
-                                    <h3>What I’m comfortable shipping in</h3>
-                                </div>
-                            </div>
-                            <div class="skill-grid">
-                                <div class="skill-pill">
-                                    <span class="label">C / C++</span>
-                                    <span class="level">low-level & perf</span>
-                                </div>
-                                <div class="skill-pill">
-                                    <span class="label">Python</span>
-                                    <span class="level">tooling & glue</span>
-                                </div>
-                                <div class="skill-pill">
-                                    <span class="label">Rust</span>
-                                    <span class="level">systems / async</span>
-                                </div>
-                                <div class="skill-pill">
-                                    <span class="label">Verilog / SystemVerilog</span>
-                                    <span class="level">CPU labs</span>
-                                </div>
-                                <div class="skill-pill">
-                                    <span class="label">IEC-61131-3</span>
-                                    <span class="level">ladder / ST</span>
-                                </div>
-                                <div class="skill-pill">
-                                    <span class="label">Linux</span>
-                                    <span class="level">tooling & dev</span>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="bento-column">
-                        <article class="bento-card card-projects" id="projects">
-                            <div class="card-header-row">
-                                <div>
-                                    <span class="label">Projects</span>
-                                    <h3>Things I’ve built or broken</h3>
-                                </div>
-                            </div>
-                            <ul>
-                                <li>
-                                    <strong>RISC-V CPU in SystemVerilog</strong>
-                                    <span class="tagline">Multi-cycle & pipelined cores, hazard unit, forwarding, plus a lot of waveform staring.</span>
-                                </li>
-                                <li>
-                                    <strong>Motion-Sensing Joystick</strong>
-                                    <span class="tagline">Three-axis accelerometer + Arduino turning body movement into game input.</span>
-                                </li>
-                                <li>
-                                    <strong>EventHub / Study Compass</strong>
-                                    <span class="tagline">RCOS open-source webapp for student event discovery & planning.</span>
-                                </li>
-                            </ul>
-                            <div class="meta">
-                                <span>Next.js</span>
-                                <span>TypeScript</span>
-                                <span>REST APIs</span>
-                                <span>PostgreSQL</span>
-                            </div>
-                        </article>
+                    <article class="bento-card">
+                        <h4>Education</h4>
+                        <h3>RPI · Class of 2026</h3>
+                        <ul>
+                            <li><strong>Major:</strong> Computer &amp; Systems Engineering</li>
+                            <li><strong>Focus:</strong> Electronic circuits, embedded systems, computer architecture</li>
+                            <li>Coursework includes hardware design, embedded control, OS / computer architecture labs.</li>
+                        </ul>
+                    </article>
 
-                        <article class="bento-card card-quick">
-                            <div class="card-header-row">
-                                <div>
-                                    <span class="label">Status</span>
-                                    <h3>Currently</h3>
-                                </div>
-                            </div>
-                            <ul>
-                                <li><span class="chip"><span class="chip-dot"></span> Open to 2025 systems / hardware internships</span></li>
-                                <li>Deep in computer architecture labs & circuits at RPI.</li>
-                                <li>Reading about GPUs, custom ops, and how not to segfault CUDA.</li>
-                            </ul>
-                        </article>
-                    </div>
+                    <article class="bento-card">
+                        <h4>Technical Stack</h4>
+                        <h3>Core skills</h3>
+                        <div class="tag-container">
+                            <span class="tag">C / C++</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">Rust</span>
+                            <span class="tag">CUDA</span>
+                            <span class="tag">SystemVerilog</span>
+                            <span class="tag">RISC-V</span>
+                            <span class="tag">FPGA</span>
+                            <span class="tag">Oscilloscopes</span>
+                            <span class="tag">MATLAB</span>
+                            <span class="tag">Linux tooling</span>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <section id="play" style="position: relative; margin-top: 80px; width: 100%; max-width: 1100px;">
-            <div id="game-section">
-                <h2>Quick break: shield the core</h2>
-                <p>Move with your mouse to block incoming projectiles. A tiny homage to “guardian of the hardware”.</p>
-                <canvas id="gameCanvas" width="900" height="300"></canvas>
-                <div id="game-ui" style="display:none;">
-                    <h2>BREACHED</h2>
-                    <p>You can always restart—both the game and the project.</p>
-                    <button class="play-btn" onclick="startGame()">Play again</button>
-                </div>
+        <!-- WORK TAB -->
+        <section id="work-section" class="page-section">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="bento-grid">
+                <article class="bento-card bento-wide">
+                    <h4>Tesla · Palo Alto</h4>
+                    <h3>Systems Integration Engineer Intern</h3>
+                    <p>
+                        Executed system integration &amp; validation on next-generation vehicle platforms.
+                        Worked hands-on with HV/LV electronics, diagnostics, and cross-team debug.
+                    </p>
+                    <ul>
+                        <li>Planned and ran multi-day test campaigns on real vehicles and benches.</li>
+                        <li>Collaborated with firmware, hardware, and diagnostics to close issues quickly.</li>
+                        <li>Improved reliability by catching edge-case safety behaviors during integration.</li>
+                    </ul>
+                    <div class="meta-row">
+                        <span class="meta-chip">CAN / LIN</span>
+                        <span class="meta-chip">Diagnostics</span>
+                        <span class="meta-chip">Test automation</span>
+                    </div>
+                </article>
+
+                <article class="bento-card">
+                    <h4>Tesla · LV Systems</h4>
+                    <h3>Low Voltage Systems TPM Intern</h3>
+                    <ul>
+                        <li>Coordinated LV electronics changes across hardware, firmware, and manufacturing.</li>
+                        <li>Tracked risks, dependencies, and test status for cross-functional teams.</li>
+                    </ul>
+                </article>
+
+                <article class="bento-card">
+                    <h4>NYS Office of IT Services</h4>
+                    <h3>Mainframe Development Intern</h3>
+                    <ul>
+                        <li>Maintained production-critical z/OS systems serving New York State agencies.</li>
+                        <li>Helped refactor and modernize legacy routines while keeping uptime requirements.</li>
+                    </ul>
+                </article>
             </div>
         </section>
-    </main>
 
-    <footer>
-        Built by Felix Liu · <a href="mailto:liuf6@rpi.edu">liuf6@rpi.edu</a> · Last updated 2025
-    </footer>
-
-    <script>
-        function toggleTheme() {
-            const body = document.body;
-            const btn = document.getElementById('theme-toggle');
-            if(body.getAttribute('data-theme') === 'dark') {
-                body.setAttribute('data-theme', 'light');
-                btn.innerText = "Dark Mode";
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                btn.innerText = "Light Mode";
-            }
-        }
-
-        // --- HOLOGRAM: ROTATING UNIVERSE ---
-        const hCanvas = document.getElementById('hologram-canvas');
-        const hCtx = hCanvas.getContext('2d');
-        let hWidth, hHeight;
-        let particles = [];
-
-        // 全局旋转角度
-        let angleX = 0;
-        let angleY = 0;
-
-        // 鼠标带来的“旋转速度”
-        let velX = 0;
-        let velY = 0;
-        let lastMouseX = null;
-        let lastMouseY = null;
-
-        function resizeHologram() {
-            hWidth = hCanvas.width = window.innerWidth;
-            hHeight = hCanvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeHologram);
-
-        window.addEventListener('mousemove', e => {
-            // 用鼠标“运动方向”而不是绝对位置
-            if (lastMouseX === null) {
-                lastMouseX = e.clientX;
-                lastMouseY = e.clientY;
-                return;
-            }
-
-            const dx = e.clientX - lastMouseX;
-            const dy = e.clientY - lastMouseY;
-            lastMouseX = e.clientX;
-            lastMouseY = e.clientY;
-
-            const sensitivity = 0.00006; // 调小这个值整体会更慢
-            // 左右移动 => 绕 Y 轴旋转
-            velY += dx * sensitivity;
-            // 上下移动 => 绕 X 轴旋转
-            velX += dy * sensitivity;
-        });
-
-        class Star {
-            constructor() {
-                const r = Math.random() * 800 + 200;
-                const theta = Math.random() * 2 * Math.PI;
-                const phi = Math.acos((Math.random() * 2) - 1);
-
-                this.baseX = r * Math.sin(phi) * Math.cos(theta);
-                this.baseY = r * Math.sin(phi) * Math.sin(theta);
-                this.baseZ = r * Math.cos(phi);
-
-                this.x = this.baseX;
-                this.y = this.baseY;
-                this.z = this.baseZ;
-
-                this.size = Math.random() * 2 + 0.5;
-                const colors = ['#ffffff', '#e0e0e0', '#a1c4fd'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-            }
-
-            update() {
-                // 使用当前全局角度，不在这里改变角度
-                const cosY = Math.cos(angleY);
-                const sinY = Math.sin(angleY);
-                const cosX = Math.cos(angleX);
-                const sinX = Math.sin(angleX);
-
-                // Y 轴旋转
-                let dx = this.baseX * cosY - this.baseZ * sinY;
-                let dz = this.baseZ * cosY + this.baseX * sinY;
-
-                // X 轴旋转
-                let dy = this.baseY * cosX - dz * sinX;
-                dz = dz * cosX + this.baseY * sinX;
-
-                this.x = dx;
-                this.y = dy;
-                this.z = dz;
-            }
-
-            draw() {
-                const fov = 600;
-                const scale = fov / (fov + this.z);
-                if (scale < 0) return;
-
-                const x2d = hWidth / 2 + this.x * scale;
-                const y2d = hHeight / 2 + this.y * scale;
-
-                if (document.body.getAttribute('data-theme') === 'light') {
-                    hCtx.fillStyle = '#1d1d1f';
-                    hCtx.globalAlpha = 0.25;
-                } else {
-                    hCtx.fillStyle = this.color;
-                    hCtx.globalAlpha = 0.9;
-                }
-
-                hCtx.beginPath();
-                hCtx.arc(x2d, y2d, this.size * scale, 0, Math.PI * 2);
-                hCtx.fill();
-                hCtx.globalAlpha = 1;
-            }
-        }
-
-        function initHologram() {
-            resizeHologram();
-            particles = [];
-            for (let i = 0; i < 1000; i++) particles.push(new Star());
-            animateHologram();
-        }
-
-        function animateHologram() {
-            // 基础缓慢自转
-            const baseAuto = 0.0002;
-
-            // 给速度一点阻尼，防止越转越疯
-            velX *= 0.94;
-            velY *= 0.94;
-
-            angleY += baseAuto + velY;
-            angleX += velX;
-
-            hCtx.clearRect(0, 0, hWidth, hHeight);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animateHologram);
-        }
-
-        initHologram();
-
-        // --- INTERACTIVE BENTO TILTING ---
-        const cards = document.querySelectorAll('.bento-card');
-        const motionFactor = 18;
-
-        function handleCardMouseMove(e) {
-            const card = this;
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left; 
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / centerY * motionFactor;
-            const rotateY = (centerX - x) / centerX * motionFactor;
-
-            card.classList.add('moving');
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-        }
-
-        function handleCardMouseLeave() {
-            const card = this;
-            card.classList.remove('moving');
-            card.style.transform = 'rotateX(0deg) rotateY(0deg)';
-        }
-
-        cards.forEach(card => {
-            card.addEventListener('mousemove', handleCardMouseMove);
-            card.addEventListener('mouseleave', handleCardMouseLeave);
-        });
-
-        // --- SCROLL NAV HIGHLIGHT ---
-        const navLinks = document.querySelectorAll('nav a');
-
-        function onScroll() {
-            const scrollY = window.pageYOffset;
-            const sections = [
-                { id: 'top', offset: document.getElementById('top').offsetTop },
-                { id: 'experience', offset: document.getElementById('experience').getBoundingClientRect().top + scrollY - 200 },
-                { id: 'projects', offset: document.getElementById('projects').getBoundingClientRect().top + scrollY - 200 },
-                { id: 'play', offset: document.getElementById('play').getBoundingClientRect().top + scrollY - 200 },
-            ];
-
-            let current = 'top';
-            for (let i = sections.length - 1; i >= 0; i--) {
-                if (scrollY + 160 >= sections[i].offset) {
-                    current = sections[i].id;
-                    break;
-                }
-            }
-
-            navLinks.forEach(link => {
-                if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
-                else link.classList.remove('active');
-            });
-        }
-
-        window.addEventListener('scroll', onScroll);
-
-        // --- MINI GAME ---
-        const gCanvas = document.getElementById('gameCanvas');
-        const gCtx = gCanvas.getContext('2d');
-        let shieldX = gCanvas.width / 2;
-        let bullets = [];
-        let score = 0;
-        let gameRunning = false;
-
-        gCanvas.addEventListener('mousemove', function(e) {
-            const rect = gCanvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            shieldX = x;
-        });
-
-        function spawnBullet() {
-            const side = Math.random() < 0.5 ? 'left' : 'right';
-            const y = Math.random() * gCanvas.height;
-            const speed = 2 + Math.random() * 3;
-            bullets.push({ side, y, speed, x: side === 'left' ? 0 : gCanvas.width });
-        }
-
-        function resetGame() {
-            bullets = [];
-            score = 0;
-            gameRunning = true;
-            document.getElementById('game-ui').style.display = 'none';
-        }
-
-        function startGame() {
-            resetGame();
-            gameLoop();
-        }
-
-        function gameLoop() {
-            if (!gameRunning) return;
-
-            gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
-
-            // Core
-            const coreX = gCanvas.width / 2;
-            const coreY = gCanvas.height / 2;
-            const coreRadius = 30;
-            const shieldRadius = 70;
-
-            // Radar pulsing
-            const time = Date.now() * 0.004;
-            const pulse = (Math.sin(time) + 1) * 0.5;
-            const pulseRadius = shieldRadius + pulse * 15;
-
-            // Draw pulse
-            const grad = gCtx.createRadialGradient(coreX, coreY, shieldRadius, coreX, coreY, pulseRadius);
-            grad.addColorStop(0, 'rgba(41,151,255,0.25)');
-            grad.addColorStop(1, 'rgba(41,151,255,0)');
-            gCtx.fillStyle = grad;
-            gCtx.beginPath();
-            gCtx.arc(coreX, coreY, pulseRadius, 0, Math.PI * 2);
-            gCtx.fill();
-
-            // Draw core
-            const coreGrad = gCtx.createRadialGradient(coreX - 10, coreY - 10, 10, coreX, coreY, 40);
-            coreGrad.addColorStop(0, '#ffffff');
-            coreGrad.addColorStop(1, '#2997ff');
-            gCtx.fillStyle = coreGrad;
-            gCtx.beginPath();
-            gCtx.arc(coreX, coreY, coreRadius, 0, Math.PI * 2);
-            gCtx.fill();
-
-            // Draw shield
-            const shieldAngle = Math.PI / 4;
-            const shieldStart = Math.PI + shieldAngle;
-            const shieldEnd = Math.PI * 2 - shieldAngle;
-            const shieldCenterX = shieldX;
-
-            gCtx.save();
-            gCtx.translate(shieldCenterX - coreX, 0);
-            gCtx.beginPath();
-            gCtx.strokeStyle = '#ffffff';
-            gCtx.lineWidth = 5;
-            gCtx.arc(coreX, coreY, shieldRadius, shieldStart, shieldEnd, false);
-            gCtx.stroke();
-            gCtx.restore();
-
-            // Spawn bullets
-            if (Math.random() < 0.03) spawnBullet();
-
-            // Update bullets
-            bullets.forEach((b, index) => {
-                if (b.side === 'left') b.x += b.speed;
-                else b.x -= b.speed;
-
-                gCtx.fillStyle = '#ff453a';
-                gCtx.beginPath();
-                gCtx.arc(b.x, b.y, 6, 0, Math.PI * 2);
-                gCtx.fill();
-
-                const dxCore = b.x - coreX;
-                const dyCore = b.y - coreY;
-                const distCore = Math.sqrt(dxCore * dxCore + dyCore * dyCore);
-
-                const dxShield = b.x - shieldCenterX;
-                const dyShield = b.y - coreY;
-                const distShield = Math.sqrt(dxShield * dxShield + dyShield * dyShield);
-
-                if (distShield < shieldRadius + 6 && distShield > shieldRadius - 10) {
-                    bullets.splice(index, 1);
-                    score++;
-                } else if (distCore < coreRadius + 6) {
-                    gameRunning = false;
-                    document.getElementById('game-ui').style.display = 'block';
-                    document.querySelector('#game-ui h2').innerText = "BREACHED. SCORE: " + score;
-                }
-
-                if (b.x < 0 || b.x > gCanvas.width || b.y < 0 || b.y > gCanvas.height) {
-                    bullets.splice(index, 1);
-                }
-            });
-
-            gCtx.fillStyle = '#fff';
-            gCtx.font = "20px Arial";
-            gCtx.fillText("Score: " + score, 20, 30);
-            requestAnimationFrame(gameLoop);
-        }
-
-        // Auto-start the game once
-        startGame();
-    </script>
-</body>
-</html>
+        <!-- PROJ
