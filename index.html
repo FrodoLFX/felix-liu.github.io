@@ -212,7 +212,7 @@
             box-shadow: 0 0 50px rgba(41, 151, 255, 0.15);
             z-index: 5;
         }
-        canvas#game-canvas { display: block; background: #000; cursor: crosshair; }
+        canvas#game-canvas { display: block; background: #000; cursor: none; }
         #game-ui {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             text-align: center; background: rgba(10, 10, 10, 0.85); padding: 50px; border-radius: 30px;
@@ -314,70 +314,80 @@
         <h2 class="section-title">Professional Experience</h2>
         <div class="bento-grid">
             <div class="bento-card bento-wide">
-                <h3>Tesla</h3>
-                <h4>System Integration Engineer Intern | Jun 2024 - Sep 2024</h4>
+                <h3>Tesla · System Integration Engineer Intern</h3>
+                <h4>Jan 2024 - Sep 2024 | Low-Voltage Integration, Validation, Safety</h4>
                 <ul>
-                    <li>Executed 55+ system integration tests and second-level e-fuse safety tests on new generation Model Y.</li>
-                    <li>Identified 3 safety enhancements, increasing safety rate by 50% in harsh environments.</li>
-                    <li>Developed low-voltage electronics bucks, validating 358 subsystem parts.</li>
-                    <li>Defined "Gen 3 Low-Voltage Electronic System Architecture" documentation.</li>
+                    <li><strong>Built end-to-end prototype infrastructure</strong> for the Full-Vehicle Low-Voltage Integration Platform across <strong>358+ components</strong>, including BOM definition, procurement, and bench build-out.</li>
+                    <li>Led deployment and UAT of a <strong>web-based BOM workflow</strong> covering <strong>2,000+ components</strong>, turning engineering dependencies into executable validation plans.</li>
+                    <li>Validated high-power MOSFET e-fuse protections using CAN tooling, identified 3 high-impact failure modes, and drove PCB-level design improvements for controller recovery.</li>
+                    <li>Engineered MATLAB-based thermal validation automation using CAN-triggered switching and transient capture, certifying harness behavior near 270°F operating conditions.</li>
+                    <li>Commissioned <strong>14 infotainment HIL benches</strong> and supported adaptive HVAC feature work through solar simulation data and optical analysis.</li>
                 </ul>
             </div>
+
             <div class="bento-card">
-                <h3>Tesla</h3>
-                <h4>Low Voltage Systems TPM Intern | Jan 2024 - May 2024</h4>
+                <h3>New York State Office of IT Services</h3>
+                <h4>Mainframe Development Intern · Feb 2023 - Dec 2023</h4>
                 <ul>
-                    <li>Led construction of 7 infotainment bucks for e-call feature validation.</li>
-                    <li>Managed Solar Chamber project for HVAC sensor team (30% accuracy improvement).</li>
-                    <li>Managed WEBOM system tracking 2000+ components.</li>
+                    <li>Maintained 24/7 Unisys mainframe operations for secure pipelines processing <strong>10,000+ records</strong> across isolated government environments.</li>
+                    <li>Led a team of 6 interns to remediate a critical legacy overflow defect and modernize timing logic across <strong>200+ system routines</strong>.</li>
+                    <li>Improved operational resilience via automation and incident response hardening for batch workflows.</li>
                 </ul>
             </div>
+
             <div class="bento-card">
-                <h3>NYS Office of IT Services</h3>
-                <h4>Mainframe Development Intern | Feb 2023 - Dec 2023</h4>
-                <ul>
-                    <li>Developed mainframe utilities in COBOL and JCL to support statewide applications.</li>
-                    <li>Implemented automation scripts to improve batch process reliability.</li>
-                </ul>
+                <h3>Toolchain & Engineering Strengths</h3>
+                <h4>What I bring to hardware + firmware teams</h4>
+                <div class="tag-container">
+                    <span class="tag">C/C++</span><span class="tag">Python</span><span class="tag">SystemVerilog</span><span class="tag">MATLAB</span>
+                    <span class="tag">CAN / UDS / LIN</span><span class="tag">I2C / SPI / UART</span><span class="tag">HIL Validation</span><span class="tag">Root Cause Analysis</span>
+                    <span class="tag">Oscilloscope / Logic Analyzer</span><span class="tag">Git · Docker · Linux</span>
+                </div>
+                <p style="margin-top:14px; color:var(--text-secondary);">
+                    I like building workflows where electrical debugging, software observability, and test automation are tightly connected.
+                </p>
             </div>
         </div>
     </section>
 
     <section id="projects-section" class="page-section">
-        <h2 class="section-title">Projects</h2>
+        <h2 class="section-title">Selected Projects</h2>
         <div class="bento-grid">
             <div class="bento-card bento-wide">
-                <h3>RISC-V CPU (SystemVerilog)</h3>
+                <h3>Advanced RISC-V SoC with Custom Bare-Metal OS</h3>
+                <h4>SystemVerilog · Cache Design · C · Assembly · In Progress</h4>
                 <ul>
-                    <li>Designed multi-cycle and pipelined RISC-V CPU with hazard detection and forwarding logic.</li>
-                    <li>Implemented and verified pipeline registers, ALU control, and branch prediction.</li>
-                    <li>Used waveform debugging extensively to verify timing and data hazards.</li>
+                    <li>Designing a synthesizable 32-bit RISC-V CPU with a 5-stage pipeline, hazard handling, and custom L1 instruction/data cache controller.</li>
+                    <li>Building RTL-to-application verification flow with I/O drivers and a lightweight text-editor-style user program running on bare metal.</li>
+                    <li>Using waveform-guided debug and constrained testing to validate memory path latency and cache coherency behavior.</li>
                 </ul>
             </div>
             <div class="bento-card">
-                <h3>Motion Sensing Joystick</h3>
+                <h3>Autonomous Robotic System (TI-RSLK)</h3>
+                <h4>Embedded C · ARM Cortex-M4 · RTOS</h4>
                 <ul>
-                    <li>Built a joystick with 3-axis accelerometer and Arduino to control game characters via physical movement.</li>
-                    <li>Implemented custom I2C driver and filtering to smooth noisy sensor data.</li>
+                    <li>Implemented interrupt-driven motor control with PID loops and sensor fusion for reliable obstacle avoidance.</li>
+                    <li>Integrated ultrasonic/IR sensing stack with deterministic scheduling for near real-time autonomous navigation.</li>
                 </ul>
             </div>
             <div class="bento-card">
-                <h3>EventHub / Study Compass</h3>
+                <h3>6-Axis Motion HID Interface</h3>
+                <h4>C++ · Arduino Leonardo · USB HID · I2C</h4>
                 <ul>
-                    <li>Developed a student-focused web app for event tracking and planning as part of RCOS.</li>
-                    <li>Implemented REST APIs and frontend components with React/Next.js.</li>
+                    <li>Developed custom firmware and IMU driver pipeline to map physical motion into smooth cursor behavior.</li>
+                    <li>Applied Kalman filtering and signal conditioning to reduce jitter and improve responsiveness.</li>
                 </ul>
             </div>
         </div>
     </section>
 
     <section id="game-section" class="page-section">
-        <h2 class="section-title">Packet Defender</h2>
+        <h2 class="section-title">Neon Orbit Rush</h2>
         <div id="game-wrapper">
             <div id="game-ui">
-                <h2>System Security Breach</h2>
-                <p style="margin: 20px 0; color: #ccc;">Protect the Core. Shoot the red packets.</p>
-                <button class="play-btn" onclick="initGame()">INITIALIZE DEFENSE</button>
+                <h2>Neon Orbit Rush</h2>
+                <p style="margin: 20px 0; color: #ccc;">Move your cursor to steer. Collect blue sparks, avoid red mines.</p>
+                <button class="play-btn" onclick="initGame()">START RUN</button>
             </div>
             <canvas id="game-canvas"></canvas>
         </div>
@@ -416,136 +426,99 @@
             }
         }
 
-        // --- HOLOGRAM: ROTATING UNIVERSE ---
+        // --- HOLOGRAM: COSMIC FLOW FIELD ---
         const hCanvas = document.getElementById('hologram-canvas');
         const hCtx = hCanvas.getContext('2d');
         let hWidth, hHeight;
         let particles = [];
-
-        // Global rotation angles
-        let angleX = 0;
-        let angleY = 0;
-
-        // Mouse-driven rotational velocity
-        let velX = 0;
-        let velY = 0;
-        let lastMouseX = null;
-        let lastMouseY = null;
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let pulse = 0;
 
         function resizeHologram() {
             hWidth = hCanvas.width = window.innerWidth;
             hHeight = hCanvas.height = window.innerHeight;
+            particles = Array.from({ length: 240 }, () => ({
+                x: Math.random() * hWidth,
+                y: Math.random() * hHeight,
+                vx: (Math.random() - 0.5) * 0.7,
+                vy: (Math.random() - 0.5) * 0.7,
+                size: Math.random() * 2 + 0.4,
+                drift: Math.random() * Math.PI * 2
+            }));
         }
         window.addEventListener('resize', resizeHologram);
-
         window.addEventListener('mousemove', e => {
-            // Use mouse motion, not absolute position
-            if (lastMouseX === null) {
-                lastMouseX = e.clientX;
-                lastMouseY = e.clientY;
-                return;
-            }
-
-            const dx = e.clientX - lastMouseX;
-            const dy = e.clientY - lastMouseY;
-            lastMouseX = e.clientX;
-            lastMouseY = e.clientY;
-
-            const sensitivity = 0.00006; // smaller = slower rotation
-            velY += dx * sensitivity;    // horizontal move -> yaw
-            velX += dy * sensitivity;    // vertical move   -> pitch
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
-        class Star {
-            constructor() {
-                const r = Math.random() * 800 + 200;
-                const theta = Math.random() * 2 * Math.PI;
-                const phi = Math.acos((Math.random() * 2) - 1);
-
-                this.baseX = r * Math.sin(phi) * Math.cos(theta);
-                this.baseY = r * Math.sin(phi) * Math.sin(theta);
-                this.baseZ = r * Math.cos(phi);
-
-                this.x = this.baseX;
-                this.y = this.baseY;
-                this.z = this.baseZ;
-
-                this.size = Math.random() * 2 + 0.5;
-                const colors = ['#ffffff', '#e0e0e0', '#a1c4fd'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+        function drawNebulaBackground() {
+            const g = hCtx.createRadialGradient(mouseX, mouseY, 40, hWidth / 2, hHeight / 2, Math.max(hWidth, hHeight));
+            if (document.body.getAttribute('data-theme') === 'light') {
+                g.addColorStop(0, 'rgba(0,113,227,0.06)');
+                g.addColorStop(1, 'rgba(255,255,255,0)');
+            } else {
+                g.addColorStop(0, 'rgba(41,151,255,0.18)');
+                g.addColorStop(0.45, 'rgba(138,43,226,0.08)');
+                g.addColorStop(1, 'rgba(0,0,0,0)');
             }
-
-            update() {
-                const cosY = Math.cos(angleY);
-                const sinY = Math.sin(angleY);
-                const cosX = Math.cos(angleX);
-                const sinX = Math.sin(angleX);
-
-                // Rotate around Y
-                let dx = this.baseX * cosY - this.baseZ * sinY;
-                let dz = this.baseZ * cosY + this.baseX * sinY;
-
-                // Rotate around X
-                let dy = this.baseY * cosX - dz * sinX;
-                dz = dz * cosX + this.baseY * sinX;
-
-                this.x = dx;
-                this.y = dy;
-                this.z = dz;
-            }
-
-            draw() {
-                const fov = 600;
-                const scale = fov / (fov + this.z);
-                if (scale <= 0) return;
-
-                const x2d = hWidth / 2 + this.x * scale;
-                const y2d = hHeight / 2 + this.y * scale;
-
-                if (document.body.getAttribute('data-theme') === 'light') {
-                    hCtx.fillStyle = '#1d1d1f';
-                    hCtx.globalAlpha = 0.25;
-                } else {
-                    hCtx.fillStyle = this.color;
-                    hCtx.globalAlpha = 0.9;
-                }
-
-                hCtx.beginPath();
-                hCtx.arc(x2d, y2d, this.size * scale, 0, Math.PI * 2);
-                hCtx.fill();
-                hCtx.globalAlpha = 1;
-            }
-        }
-
-        function initHologram() {
-            resizeHologram();
-            particles = [];
-            for (let i = 0; i < 1000; i++) {
-                particles.push(new Star());
-            }
-            animateHologram();
+            hCtx.fillStyle = g;
+            hCtx.fillRect(0, 0, hWidth, hHeight);
         }
 
         function animateHologram() {
-            // base slow auto-rotation
-            const baseAuto = 0.0002;
-
-            // apply damping to mouse-induced velocity
-            velX *= 0.94;
-            velY *= 0.94;
-
-            angleY += baseAuto + velY;
-            angleX += velX;
-
+            pulse += 0.02;
             hCtx.clearRect(0, 0, hWidth, hHeight);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+            drawNebulaBackground();
+
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                p.drift += 0.005;
+
+                const dx = mouseX - p.x;
+                const dy = mouseY - p.y;
+                const dist = Math.hypot(dx, dy) || 1;
+                const attract = Math.min(85 / dist, 0.55);
+
+                p.vx += (dx / dist) * attract * 0.03 + Math.cos(p.drift) * 0.005;
+                p.vy += (dy / dist) * attract * 0.03 + Math.sin(p.drift) * 0.005;
+                p.vx *= 0.975;
+                p.vy *= 0.975;
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0) p.x = hWidth;
+                if (p.x > hWidth) p.x = 0;
+                if (p.y < 0) p.y = hHeight;
+                if (p.y > hHeight) p.y = 0;
+
+                const light = document.body.getAttribute('data-theme') === 'light';
+                hCtx.beginPath();
+                hCtx.arc(p.x, p.y, p.size + Math.sin(pulse + i * 0.15) * 0.3, 0, Math.PI * 2);
+                hCtx.fillStyle = light ? 'rgba(0,0,0,0.22)' : 'rgba(166,212,255,0.9)';
+                hCtx.fill();
+
+                for (let j = i + 1; j < i + 10 && j < particles.length; j++) {
+                    const q = particles[j];
+                    const d = Math.hypot(p.x - q.x, p.y - q.y);
+                    if (d < 110) {
+                        hCtx.strokeStyle = light ? `rgba(0,0,0,${0.06 - d / 2200})` : `rgba(41,151,255,${0.22 - d / 650})`;
+                        hCtx.lineWidth = 1;
+                        hCtx.beginPath();
+                        hCtx.moveTo(p.x, p.y);
+                        hCtx.lineTo(q.x, q.y);
+                        hCtx.stroke();
+                    }
+                }
+            }
+
             requestAnimationFrame(animateHologram);
         }
 
-        initHologram();
+        resizeHologram();
+        animateHologram();
 
         // --- SPRINGY CARD PHYSICS ---
         const cards = document.querySelectorAll('.bento-card');
@@ -569,57 +542,48 @@
             });
         });
 
-        // --- GAME LOGIC ---
+        // --- GAME LOGIC: NEON ORBIT RUSH ---
         const gCanvas = document.getElementById('game-canvas');
         const gCtx = gCanvas.getContext('2d');
 
         let gameRunning = false;
-        let player = { x: 0, y: 0, width: 60, height: 12 };
-        let projectiles = [];
-        let enemies = [];
+        let player = { x: 0, y: 0, r: 14, vx: 0, vy: 0 };
+        let sparks = [];
+        let mines = [];
         let score = 0;
+        let bestScore = Number(localStorage.getItem('neon-orbit-best') || 0);
         let frameCount = 0;
         let animationId = null;
+        let target = { x: 0, y: 0 };
 
         function resizeGame() {
             const wrapper = document.getElementById('game-wrapper');
             if (!wrapper) return;
-
             gCanvas.width = wrapper.clientWidth;
             gCanvas.height = wrapper.clientHeight;
-
-            // Position player near bottom center
-            player.y = gCanvas.height - 40;
-            if (player.x === 0) {
-                player.x = gCanvas.width / 2;
-            } else {
-                player.x = Math.min(Math.max(player.width / 2, player.x), gCanvas.width - player.width / 2);
+            if (!gameRunning) {
+                player.x = gCanvas.width * 0.5;
+                player.y = gCanvas.height * 0.65;
             }
+            target.x = player.x;
+            target.y = player.y;
         }
 
-        // Mouse controls: move turret horizontally
-        gCanvas.addEventListener('mousemove', (e) => {
+        function setTarget(e) {
             const rect = gCanvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            player.x = Math.min(Math.max(player.width / 2, x), gCanvas.width - player.width / 2);
-        });
-
-        // Click to fire a projectile
-        gCanvas.addEventListener('click', () => {
-            if (!gameRunning) return;
-            projectiles.push({
-                x: player.x,
-                y: player.y - player.height,
-                vy: -8
-            });
-        });
+            target.x = e.clientX - rect.left;
+            target.y = e.clientY - rect.top;
+        }
+        gCanvas.addEventListener('mousemove', setTarget);
 
         function initGame() {
             resizeGame();
             score = 0;
             frameCount = 0;
-            projectiles = [];
-            enemies = [];
+            sparks = [];
+            mines = [];
+            player = { x: gCanvas.width * 0.5, y: gCanvas.height * 0.65, r: 14, vx: 0, vy: 0 };
+            target = { x: player.x, y: player.y };
             gameRunning = true;
 
             const ui = document.getElementById('game-ui');
@@ -629,136 +593,137 @@
             animationId = requestAnimationFrame(gameLoop);
         }
 
-        function spawnEnemy() {
-            const size = 26;
-            const margin = 40;
-            const x = Math.random() * (gCanvas.width - margin * 2) + margin;
-            enemies.push({
-                x: x,
-                y: -size,
-                size: size,
-                vy: 2.2 + Math.random() * 1.2
-            });
+        function spawnSpark() {
+            sparks.push({ x: Math.random() * gCanvas.width, y: -10, vy: 1.7 + Math.random() * 1.5, r: 6 });
+        }
+
+        function spawnMine() {
+            const edge = Math.random();
+            let x = Math.random() * gCanvas.width;
+            let y = -18;
+            if (edge < 0.25) { x = -18; y = Math.random() * gCanvas.height * 0.6; }
+            else if (edge < 0.5) { x = gCanvas.width + 18; y = Math.random() * gCanvas.height * 0.6; }
+            mines.push({ x, y, r: 12, vx: (player.x - x) * 0.0025, vy: 1.2 + Math.random() * 1.4 });
         }
 
         function drawPlayer() {
             gCtx.save();
-            gCtx.fillStyle = '#1e90ff';
-            gCtx.shadowColor = 'rgba(41,151,255,0.6)';
-            gCtx.shadowBlur = 15;
-            gCtx.fillRect(player.x - player.width / 2, player.y, player.width, player.height);
+            gCtx.shadowColor = 'rgba(82,255,209,0.9)';
+            gCtx.shadowBlur = 20;
+            gCtx.fillStyle = '#52ffd1';
+            gCtx.beginPath();
+            gCtx.arc(player.x, player.y, player.r, 0, Math.PI * 2);
+            gCtx.fill();
             gCtx.restore();
         }
 
-        function drawProjectiles() {
-            gCtx.fillStyle = '#ffffff';
-            projectiles.forEach((p) => {
+        function drawHUD() {
+            gCtx.fillStyle = '#f5f5f7';
+            gCtx.font = '16px system-ui, sans-serif';
+            gCtx.fillText('Score: ' + score, 18, 30);
+            gCtx.fillText('Best: ' + bestScore, 18, 52);
+            gCtx.fillText('Tip: Follow your cursor and farm blue sparks.', 18, gCanvas.height - 16);
+        }
+
+        function drawObjects() {
+            sparks.forEach(s => {
+                gCtx.fillStyle = '#59a9ff';
                 gCtx.beginPath();
-                gCtx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                gCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
                 gCtx.fill();
             });
-        }
 
-        function drawEnemies() {
-            enemies.forEach((e) => {
-                gCtx.fillStyle = '#ff3b30';
-                gCtx.fillRect(e.x - e.size / 2, e.y, e.size, e.size);
+            mines.forEach(m => {
+                gCtx.fillStyle = '#ff4d6d';
+                gCtx.beginPath();
+                gCtx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
+                gCtx.fill();
+                gCtx.strokeStyle = 'rgba(255,125,145,0.9)';
+                gCtx.stroke();
             });
         }
 
-        function updateProjectiles() {
-            projectiles.forEach((p) => {
-                p.y += p.vy;
-            });
-            projectiles = projectiles.filter((p) => p.y > -20);
-        }
+        function updateGameState() {
+            const dx = target.x - player.x;
+            const dy = target.y - player.y;
+            player.vx += dx * 0.03;
+            player.vy += dy * 0.03;
+            player.vx *= 0.82;
+            player.vy *= 0.82;
+            player.x += player.vx;
+            player.y += player.vy;
 
-        function updateEnemies() {
-            enemies.forEach((e) => {
-                e.y += e.vy;
-            });
-        }
+            player.x = Math.max(player.r, Math.min(gCanvas.width - player.r, player.x));
+            player.y = Math.max(player.r, Math.min(gCanvas.height - player.r, player.y));
 
-        function handleCollisions() {
-            enemies = enemies.filter((e) => {
-                let hit = false;
-                projectiles = projectiles.filter((p) => {
-                    if (
-                        p.x > e.x - e.size / 2 &&
-                        p.x < e.x + e.size / 2 &&
-                        p.y > e.y &&
-                        p.y < e.y + e.size
-                    ) {
-                        hit = true;
-                        score += 10;
-                        return false; // remove projectile
-                    }
-                    return true;
-                });
-                return !hit; // remove enemy if hit
+            sparks.forEach(s => s.y += s.vy);
+            mines.forEach(m => {
+                m.x += m.vx;
+                m.y += m.vy;
             });
-        }
 
-        function checkGameOver() {
-            for (const e of enemies) {
-                if (e.y + e.size >= gCanvas.height - 10) {
-                    gameRunning = false;
-                    const ui = document.getElementById('game-ui');
-                    if (ui) {
-                        ui.style.display = 'block';
-                        const title = ui.querySelector('h2');
-                        if (title) title.textContent = 'System Breached — Score: ' + score;
-                    }
-                    break;
+            sparks = sparks.filter(s => s.y < gCanvas.height + 20);
+            mines = mines.filter(m => m.y < gCanvas.height + 30 && m.x > -40 && m.x < gCanvas.width + 40);
+
+            sparks = sparks.filter(s => {
+                const hit = Math.hypot(s.x - player.x, s.y - player.y) < s.r + player.r;
+                if (hit) score += 5;
+                return !hit;
+            });
+
+            for (const m of mines) {
+                if (Math.hypot(m.x - player.x, m.y - player.y) < m.r + player.r - 2) {
+                    endGame();
+                    return;
                 }
             }
         }
 
-        function drawHUD() {
-            gCtx.fillStyle = '#ffffff';
-            gCtx.font = '18px system-ui, sans-serif';
-            gCtx.fillText('Score: ' + score, 20, 30);
+        function drawBackground() {
+            const gradient = gCtx.createLinearGradient(0, 0, 0, gCanvas.height);
+            gradient.addColorStop(0, '#04070f');
+            gradient.addColorStop(1, '#010206');
+            gCtx.fillStyle = gradient;
+            gCtx.fillRect(0, 0, gCanvas.width, gCanvas.height);
+        }
+
+        function endGame() {
+            gameRunning = false;
+            bestScore = Math.max(bestScore, score);
+            localStorage.setItem('neon-orbit-best', String(bestScore));
+
+            const ui = document.getElementById('game-ui');
+            if (ui) {
+                ui.style.display = 'block';
+                const title = ui.querySelector('h2');
+                const desc = ui.querySelector('p');
+                const btn = ui.querySelector('button');
+                if (title) title.textContent = `Run Over · Score ${score}`;
+                if (desc) desc.textContent = `Best ${bestScore} · Dodge red mines and keep chaining blue sparks.`;
+                if (btn) btn.textContent = 'PLAY AGAIN';
+            }
         }
 
         function gameLoop() {
             if (!gameRunning) return;
-
             frameCount++;
+            if (frameCount % 30 === 0) spawnSpark();
+            if (frameCount % Math.max(70 - Math.floor(score / 20), 28) === 0) spawnMine();
 
-            // Spawn enemies at a basic interval
-            if (frameCount % 60 === 0) {
-                spawnEnemy();
-            }
-
-            // Clear
-            gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
-
-            // Slight vignette background
-            const gradient = gCtx.createRadialGradient(
-                gCanvas.width / 2,
-                gCanvas.height,
-                10,
-                gCanvas.width / 2,
-                gCanvas.height / 2,
-                gCanvas.height
-            );
-            gradient.addColorStop(0, '#050811');
-            gradient.addColorStop(1, '#000000');
-            gCtx.fillStyle = gradient;
-            gCtx.fillRect(0, 0, gCanvas.width, gCanvas.height);
-
-            updateProjectiles();
-            updateEnemies();
-            handleCollisions();
-            checkGameOver();
-
-            drawEnemies();
+            drawBackground();
+            updateGameState();
+            drawObjects();
             drawPlayer();
-            drawProjectiles();
             drawHUD();
 
             animationId = requestAnimationFrame(gameLoop);
         }
+
+        resizeGame();
+        window.addEventListener('resize', () => {
+            resizeHologram();
+            resizeGame();
+        });
     </script>
 </body>
 </html>
